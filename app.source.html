@@ -336,7 +336,8 @@ input.blank.no{border-style:solid;border-color:var(--accent);background:var(--ac
 .footbar .lock{font-size:.9rem;color:var(--ink-3)}
 
 /* 저장이 막힌 환경 안내 · 알림 · 파일 버튼 */
-label.iconbtn{display:inline-block;cursor:pointer}
+label.iconbtn{cursor:pointer}
+label.iconbtn:not([hidden]){display:inline-block}  /* hidden 이 display 에 덮이지 않게 */
 .notice{
   display:flex;gap:14px;align-items:flex-start;background:var(--warn-soft);color:var(--warn);
   border:1px solid var(--warn);border-radius:12px;padding:16px 20px;margin-top:26px;
