@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="초등학교 6학년 2학기 수학 1단원 분수의 나눗셈을 조작 활동으로 익히는 학습 앱. 여섯 차시를 구체물·그림·식·연습 네 단계로 공부합니다.">
+<meta name="theme-color" content="#EDF3F6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0A1820" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="분수 나눗셈">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png">
+<title>분수의 나눗셈 실험실</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@500;700;800&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+
+<style>
+/* ── 토큰 ─────────────────────────────────────────────── */
+:root{
+  --ground:#EDF3F6; --surface:#FFFFFF; --surface-2:#F6FAFB; --surface-3:#E9F1F4;
+  --ink:#112330; --ink-2:#3E5A69; --ink-3:#728B98;
+  --line:#D4E1E8; --line-strong:#A9C2CE;
+  --teal:#0E7A85; --teal-2:#12949F; --teal-soft:#D8EDEF; --teal-ink:#08525A;
+  --accent:#DE5B26; --accent-2:#EE7743; --accent-soft:#FBE6DB; --accent-ink:#8E3410;
+  --good:#1B7F55; --good-soft:#DDF1E7;
+  --warn:#B0700C; --warn-soft:#FAEDD6;
+  --shadow-1:0 1px 2px rgba(17,35,48,.06);
+  --shadow-2:0 2px 4px rgba(17,35,48,.05), 0 14px 30px -18px rgba(17,35,48,.38);
+  --r:14px; --r-lg:20px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0A1820; --surface:#122630; --surface-2:#16303A; --surface-3:#1D3B47;
+    --ink:#E9F2F6; --ink-2:#A9C3CF; --ink-3:#7C99A7;
+    --line:#264350; --line-strong:#3A6273;
+    --teal:#4CC3CD; --teal-2:#6FD6DE; --teal-soft:#0E333A; --teal-ink:#9FE4EA;
+    --accent:#FF7C46; --accent-2:#FF9668; --accent-soft:#3B2019; --accent-ink:#FFC5A9;
+    --good:#4FC98C; --good-soft:#0F2E20;
+    --warn:#E4A93F; --warn-soft:#2C2314;
+    --shadow-1:0 1px 2px rgba(0,0,0,.4);
+    --shadow-2:0 2px 4px rgba(0,0,0,.3), 0 14px 30px -18px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0A1820; --surface:#122630; --surface-2:#16303A; --surface-3:#1D3B47;
+  --ink:#E9F2F6; --ink-2:#A9C3CF; --ink-3:#7C99A7;
+  --line:#264350; --line-strong:#3A6273;
+  --teal:#4CC3CD; --teal-2:#6FD6DE; --teal-soft:#0E333A; --teal-ink:#9FE4EA;
+  --accent:#FF7C46; --accent-2:#FF9668; --accent-soft:#3B2019; --accent-ink:#FFC5A9;
+  --good:#4FC98C; --good-soft:#0F2E20;
+  --warn:#E4A93F; --warn-soft:#2C2314;
+  --shadow-1:0 1px 2px rgba(0,0,0,.4);
+  --shadow-2:0 2px 4px rgba(0,0,0,.3), 0 14px 30px -18px rgba(0,0,0,.9);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans KR","Malgun Gothic",system-ui,sans-serif;
+  font-size:18px; line-height:1.6; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.dsp{font-family:"Gothic A1","Malgun Gothic",system-ui,sans-serif;font-weight:800;letter-spacing:-.01em}
+button{font-family:inherit;font-size:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion: reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+
+/* ── 앱 골격 ──────────────────────────────────────────── */
+#app{min-height:100vh;display:flex;flex-direction:column}
+.wrap{width:100%;max-width:1220px;margin:0 auto;padding:0 24px}
+
+.topbar{
+  position:sticky;top:0;z-index:40;background:var(--surface);
+  border-bottom:1px solid var(--line);box-shadow:var(--shadow-1);
+}
+.topbar .wrap{display:flex;align-items:center;gap:20px;min-height:70px}
+.brand{display:flex;align-items:baseline;gap:10px;font-family:"Gothic A1",sans-serif;font-weight:800;font-size:1.15rem}
+.brand .dot{width:11px;height:11px;border-radius:50%;background:var(--accent);align-self:center;flex:none}
+.brand small{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.7rem;letter-spacing:.14em;color:var(--ink-3);text-transform:uppercase}
+.spacer{flex:1}
+
+.iconbtn{
+  border:1px solid var(--line-strong);background:var(--surface);color:var(--ink-2);
+  border-radius:10px;padding:9px 14px;cursor:pointer;font-size:.9rem;font-weight:600;
+}
+.iconbtn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── 홈 ───────────────────────────────────────────────── */
+.hero{padding:52px 0 30px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.hero h1{font-size:clamp(2.1rem,4.4vw,3.1rem);margin:14px 0 16px;text-wrap:balance;line-height:1.15}
+.hero p{max-width:60ch;color:var(--ink-2);font-size:1.08rem;margin:0}
+.flowline{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:26px}
+.flowline .fl{
+  display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--line);
+  border-radius:999px;padding:8px 16px 8px 10px;font-size:.92rem;font-weight:600;color:var(--ink-2);
+}
+.flowline .fl b{
+  width:26px;height:26px;border-radius:50%;background:var(--surface-3);color:var(--ink-2);
+  display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-size:.8rem
+}
+.flowline .arw{color:var(--line-strong);font-weight:700}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:20px;padding:14px 0 60px}
+.card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:24px 24px 20px;text-align:left;cursor:pointer;box-shadow:var(--shadow-1);
+  transition:transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+  display:flex;flex-direction:column;gap:14px;color:inherit;
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-2);border-color:var(--line-strong)}
+.card .no{
+  font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.76rem;letter-spacing:.14em;
+  color:var(--accent);text-transform:uppercase
+}
+.card h3{margin:0;font-size:1.28rem;line-height:1.3}
+.card .sub{color:var(--ink-3);font-size:.92rem;margin:-6px 0 0}
+.card .expr{
+  background:var(--surface-2);border:1px solid var(--line);border-radius:10px;
+  padding:12px 14px;display:flex;align-items:center;gap:10px;justify-content:center
+}
+.dots{display:flex;gap:6px;align-items:center;margin-top:auto}
+.dots i{width:26px;height:7px;border-radius:4px;background:var(--surface-3);display:block}
+.dots i.on{background:var(--good)}
+.dots span{margin-left:6px;font-size:.8rem;color:var(--ink-3);font-family:"IBM Plex Mono",monospace}
+
+/* ── 차시 화면 ────────────────────────────────────────── */
+.lessonhead{background:var(--surface);border-bottom:1px solid var(--line)}
+.lessonhead .wrap{padding-top:16px;padding-bottom:0}
+.lh-top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.lh-top .no{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--accent);font-size:.8rem;letter-spacing:.14em}
+.lh-top h2{margin:0;font-size:1.45rem}
+.lh-top .goal{color:var(--ink-3);font-size:.92rem}
+.steps{display:flex;gap:8px;margin-top:16px;overflow-x:auto;padding-bottom:2px}
+.steps button{
+  flex:1;min-width:150px;border:0;border-bottom:4px solid var(--line);background:none;
+  padding:12px 8px 12px;text-align:left;cursor:pointer;color:var(--ink-3);
+}
+.steps button .k{font-family:"IBM Plex Mono",monospace;font-size:.72rem;font-weight:600;letter-spacing:.1em;display:block}
+.steps button .t{font-family:"Gothic A1",sans-serif;font-weight:700;font-size:1rem;display:block;margin-top:2px}
+.steps button.cur{color:var(--ink);border-bottom-color:var(--accent)}
+.steps button.ok{color:var(--good);border-bottom-color:var(--good)}
+.steps button:disabled{cursor:not-allowed;opacity:.5}
+
+main{flex:1;padding:26px 0 130px}
+
+.task{
+  display:flex;gap:16px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);
+  border-left:6px solid var(--accent);border-radius:12px;padding:18px 22px;margin-bottom:20px;box-shadow:var(--shadow-1)
+}
+.task .lab{
+  font-family:"IBM Plex Mono",monospace;font-size:.7rem;font-weight:600;letter-spacing:.14em;
+  color:var(--accent);background:var(--accent-soft);padding:5px 9px;border-radius:6px;flex:none;margin-top:3px
+}
+.task .txt{font-size:1.16rem;font-weight:500;line-height:1.55}
+.task .txt em{font-style:normal;font-weight:600;color:var(--accent);background:var(--accent-soft);padding:1px 6px;border-radius:5px}
+
+.stage{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:30px;box-shadow:var(--shadow-2);min-height:400px;display:flex;flex-direction:column;gap:26px
+}
+.board{display:flex;flex-direction:column;gap:22px}
+.panel{display:flex;flex-direction:column;gap:18px}
+.hr{height:1px;background:var(--line);border:0;margin:0}
+
+.scene{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+.scene>h4{margin:0 0 16px;font-size:.95rem;font-family:"IBM Plex Mono",monospace;font-weight:600;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase}
+.row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.col{display:flex;flex-direction:column;gap:12px}
+.center{justify-content:center}
+.note{font-size:.92rem;color:var(--ink-3)}
+.tag{font-size:.8rem;font-weight:600;font-family:"IBM Plex Mono",monospace;letter-spacing:.06em;padding:4px 10px;border-radius:6px}
+.tag.t{background:var(--teal-soft);color:var(--teal-ink)}
+.tag.a{background:var(--accent-soft);color:var(--accent-ink)}
+
+/* ── 분수 표기 ────────────────────────────────────────── */
+.fr{display:inline-flex;align-items:center;gap:7px;vertical-align:middle;font-family:"IBM Plex Mono",monospace;font-weight:600}
+.fr .w{font-size:1.9rem;line-height:1}
+.fr .st{display:inline-flex;flex-direction:column;align-items:center;line-height:1.05}
+.fr .st .n{padding:0 4px}
+.fr .st .d{padding:0 4px;border-top:2.5px solid currentColor;margin-top:3px}
+.fr,.eq{font-size:1.55rem}
+.fr.sm{font-size:1.1rem}
+.fr.lg{font-size:2.1rem}
+.eq{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-family:"IBM Plex Mono",monospace;font-weight:600}
+.eq .op{color:var(--ink-3);font-size:1.5rem}
+.eq .num{font-family:"IBM Plex Mono",monospace}
+.c-t{color:var(--teal)} .c-a{color:var(--accent)}
+
+/* 빈칸 입력 */
+input.blank{
+  width:3.2ch;min-width:56px;height:58px;text-align:center;font-family:"IBM Plex Mono",monospace;
+  font-weight:600;font-size:1.5rem;color:var(--ink);background:var(--surface);
+  border:2.5px dashed var(--line-strong);border-radius:10px;padding:0 4px;
+}
+input.blank:hover{border-color:var(--accent)}
+input.blank:focus{outline:none;border-style:solid;border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+input.blank.ok{border-style:solid;border-color:var(--good);background:var(--good-soft);color:var(--good)}
+input.blank.no{border-style:solid;border-color:var(--accent);background:var(--accent-soft);animation:shake .32s}
+.fr input.blank{height:44px;min-width:48px;font-size:1.2rem;border-width:2px;border-radius:8px}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+/* ── 막대 모형 ────────────────────────────────────────── */
+.barwrap{display:flex;flex-direction:column;gap:7px;width:100%}
+.barlabel{display:flex;justify-content:space-between;align-items:center;font-size:.9rem;color:var(--ink-2);font-weight:600}
+.bar{
+  display:grid;height:80px;border:2.5px solid var(--line-strong);border-radius:12px;
+  background:var(--surface);overflow:hidden;position:relative;
+}
+.bar.h56{height:56px}
+.cell{border-right:1.5px solid var(--line);position:relative;transition:background .15s}
+.cell:last-child{border-right:0}
+.cell.f{background:var(--teal-soft);border-right-color:var(--teal)}
+.cell.f::after{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--teal);opacity:.75}
+.cell.fa{background:var(--accent-soft);border-right-color:var(--accent)}
+.cell.fa::after{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:var(--accent);opacity:.8}
+.cell.pick{cursor:grab}
+.cell.pick:hover{box-shadow:inset 0 0 0 3px var(--teal)}
+.cell.gone{background:repeating-linear-gradient(45deg,transparent,transparent 6px,var(--surface-3) 6px,var(--surface-3) 12px)}
+.cell.cnt{cursor:pointer}
+.cell.cnt:hover{background:var(--accent-soft)}
+.cell .mark{
+  position:absolute;inset:0;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;
+  font-weight:600;font-size:1.05rem;color:var(--accent-ink)
+}
+.scale{display:grid;font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--ink-3)}
+.scale span{text-align:center;border-left:1px solid var(--line);padding-top:3px}
+.scale span:first-child{border-left:0}
+
+/* 묶음 표시 */
+.grp{position:absolute;top:0;bottom:0;border:3px solid var(--accent);border-radius:9px;pointer-events:none;background:transparent}
+.grp b{position:absolute;top:4px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-family:"IBM Plex Mono",monospace;font-size:.72rem;padding:2px 8px;border-radius:6px}
+
+/* ── 담는 그릇(화분/컵/접시) ──────────────────────────── */
+.vessels{display:flex;gap:14px;flex-wrap:wrap}
+.vessel{
+  width:112px;border:2.5px dashed var(--line-strong);border-radius:12px;background:var(--surface);
+  display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;position:relative;height:104px;
+}
+.vessel.on{border-color:var(--accent);border-style:solid;background:var(--accent-soft);box-shadow:0 0 0 4px var(--accent-soft)}
+.vessel .fillbar{background:var(--teal);opacity:.42;width:100%;transition:height .2s ease}
+.vessel .cap{position:absolute;z-index:2;top:6px;left:0;right:0;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--ink-2)}
+.vessel .cnt{position:absolute;z-index:2;bottom:6px;left:0;right:0;text-align:center;font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.95rem;color:var(--ink)}
+.vessel.full{border-color:var(--good);border-style:solid}
+.vessel .half{position:absolute;left:0;right:0;top:50%;border-top:2px dashed var(--accent)}
+
+/* ── 드래그 토큰 ──────────────────────────────────────── */
+.token{
+  min-width:78px;height:78px;border-radius:12px;display:grid;place-items:center;cursor:grab;
+  background:var(--teal-soft);border:2.5px solid var(--teal);color:var(--teal-ink);
+  font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:1.05rem;user-select:none;
+  box-shadow:var(--shadow-1);transition:transform .12s
+}
+.token:hover{transform:translateY(-2px)}
+.token.a{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+.token.used{opacity:.35;cursor:not-allowed;transform:none}
+.token.locked{border-style:dashed;cursor:not-allowed;opacity:.7}
+/* 실제 양과 같은 폭으로 보이는 틀·자 카드 */
+.token.ftok{position:relative;overflow:hidden;min-width:0;padding:0}
+.token.ftok .g{position:absolute;inset:0;display:grid;pointer-events:none}
+.token.ftok .g i{border-right:2px dashed currentColor;opacity:.45}
+.token.ftok .g i:last-child{border-right:0}
+.token.ftok .l{position:relative;z-index:2;font-size:1rem;white-space:nowrap}
+.ftok-holder{width:100%;display:flex}
+#ghost{position:fixed;z-index:900;pointer-events:none;transform:translate(-50%,-50%) rotate(-3deg);opacity:.95}
+.slot{
+  min-width:96px;height:78px;border:2.5px dashed var(--line-strong);border-radius:12px;
+  display:grid;place-items:center;background:var(--surface-2);color:var(--ink-3);font-size:.85rem;
+}
+.slot.on{border-color:var(--accent);background:var(--accent-soft);border-style:solid}
+.slot.has{border-style:solid;border-color:var(--teal);background:var(--teal-soft)}
+
+/* ── 원(조각) 모형 ────────────────────────────────────── */
+.discs{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.disc{width:96px;height:96px;position:relative;cursor:pointer;flex:none}
+.disc svg{display:block;width:100%;height:100%}
+.disc.done{cursor:default}
+.disc:not(.done):hover svg circle{stroke:var(--accent)}
+.disc .hint{position:absolute;inset:auto 0 -22px 0;text-align:center;font-size:.72rem;color:var(--accent);font-family:"IBM Plex Mono",monospace}
+
+/* ── 버튼 ─────────────────────────────────────────────── */
+.btn{
+  border:0;border-radius:12px;padding:16px 26px;font-weight:700;font-family:"Gothic A1",sans-serif;
+  font-size:1.02rem;cursor:pointer;background:var(--surface-3);color:var(--ink);box-shadow:var(--shadow-1)
+}
+.btn:hover{filter:brightness(.97)}
+.btn.pri{background:var(--accent);color:#fff}
+.btn.tl{background:var(--teal);color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.btn.sm{padding:11px 18px;font-size:.92rem;border-radius:10px}
+.btn.ghost{background:none;border:2px solid var(--line-strong);color:var(--ink-2);box-shadow:none}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── 피드백 ───────────────────────────────────────────── */
+.msg{border-radius:12px;padding:16px 20px;font-size:1.02rem;display:flex;gap:14px;align-items:flex-start;line-height:1.55}
+.msg .m-k{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.72rem;letter-spacing:.12em;flex:none;margin-top:4px;padding:4px 8px;border-radius:5px}
+.msg.ok{background:var(--good-soft);color:var(--good)} .msg.ok .m-k{background:var(--good);color:#fff}
+.msg.no{background:var(--accent-soft);color:var(--accent-ink)} .msg.no .m-k{background:var(--accent);color:#fff}
+.msg.tip{background:var(--warn-soft);color:var(--warn)} .msg.tip .m-k{background:var(--warn);color:#fff}
+.msg b{font-weight:600}
+.msg.hide{display:none}
+
+/* 개념 정리 카드 */
+.rule{
+  background:var(--teal-soft);border:2px solid var(--teal);border-radius:var(--r);padding:22px 24px;
+  display:flex;flex-direction:column;gap:12px
+}
+.rule h4{margin:0;font-size:1rem;color:var(--teal-ink);font-family:"IBM Plex Mono",monospace;letter-spacing:.1em;font-weight:600;text-transform:uppercase}
+.rule p{margin:0;color:var(--ink);font-size:1.05rem}
+
+/* 선택형 문항 */
+.mcq{display:flex;flex-direction:column;gap:12px}
+.mcq .q{font-size:1.08rem;font-weight:600}
+.opt{
+  display:flex;gap:14px;align-items:center;text-align:left;width:100%;background:var(--surface-2);
+  border:2px solid var(--line);border-radius:12px;padding:16px 20px;cursor:pointer;color:inherit;font-size:1.02rem
+}
+.opt:hover{border-color:var(--accent)}
+.opt .k{
+  width:34px;height:34px;flex:none;border-radius:9px;background:var(--surface-3);display:grid;place-items:center;
+  font-family:"IBM Plex Mono",monospace;font-weight:600
+}
+.opt.ok{border-color:var(--good);background:var(--good-soft)} .opt.ok .k{background:var(--good);color:#fff}
+.opt.no{border-color:var(--accent);background:var(--accent-soft)} .opt.no .k{background:var(--accent);color:#fff}
+.opt:disabled{cursor:default}
+
+/* 연습 문제 격자 */
+.drill{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.dq{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.dq .qn{font-family:"IBM Plex Mono",monospace;font-size:.75rem;font-weight:600;letter-spacing:.12em;color:var(--ink-3)}
+.dq.solved{border-color:var(--good);background:var(--good-soft)}
+
+/* 방법 비교 2단 */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.way{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:flex;flex-direction:column;gap:16px}
+.way h5{margin:0;font-size:.95rem;font-family:"IBM Plex Mono",monospace;font-weight:600;letter-spacing:.06em;color:var(--accent)}
+.way.solved{border-color:var(--good)}
+@media (max-width:900px){.two{grid-template-columns:1fr}}
+
+/* 하단 조작 바 */
+.footbar{
+  position:fixed;bottom:0;left:0;right:0;z-index:50;background:var(--surface);
+  border-top:1px solid var(--line);box-shadow:0 -8px 26px -20px rgba(17,35,48,.5)
+}
+.footbar .wrap{display:flex;align-items:center;gap:16px;min-height:88px}
+.footbar .prog{font-family:"IBM Plex Mono",monospace;font-size:.85rem;color:var(--ink-3)}
+.footbar .lock{font-size:.9rem;color:var(--ink-3)}
+
+/* 수직선 */
+.nline{position:relative;height:64px;margin-top:10px}
+.nline .axis{position:absolute;left:0;right:0;top:26px;height:3px;background:var(--line-strong)}
+.nline .tk{position:absolute;top:16px;width:2px;height:22px;background:var(--line-strong)}
+.nline .tl{position:absolute;top:42px;transform:translateX(-50%);font-family:"IBM Plex Mono",monospace;font-size:.75rem;color:var(--ink-3);white-space:nowrap}
+.seg{position:absolute;top:0;height:22px;border-radius:6px;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-size:.8rem;font-weight:600;color:#fff}
+.seg.t{background:var(--teal)} .seg.a{background:var(--accent)}
+.seg.ghost{background:none;border:2.5px dashed var(--line-strong);color:var(--ink-3)}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar"><div class="wrap">
+    <div class="brand"><span class="dot"></span><span>분수의 나눗셈 실험실</span><small>6-2 · 1단원</small></div>
+    <div class="spacer"></div>
+    <button class="iconbtn" id="btn-install" hidden>앱 설치</button>
+    <button class="iconbtn" id="btn-home">차시 목록</button>
+    <button class="iconbtn" id="btn-reset">기록 지우기</button>
+  </div></header>
+  <div id="view"></div>
+</div>
+<div id="ghost" hidden></div>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   1. 기본 도구
+   ══════════════════════════════════════════════════════════ */
+const $  = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+function h(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+function H(html){const t=document.createElement('template');t.innerHTML=html.trim();return t.content.firstElementChild;}
+
+/* 분수 표기 — 값이 '_3' 이면 3번 빈칸이 된다 */
+function BL(i,w){return '<input class="blank" data-b="'+i+'" inputmode="numeric" autocomplete="off"'+(w?' style="min-width:'+w+'px"':'')+'>';}
+function T(v){return (typeof v==='string'&&v[0]==='_')?BL(v.slice(1)):'<span class="num">'+v+'</span>';}
+function F(n,d,w,cls){
+  const st='<span class="st"><span class="n">'+T(n)+'</span><span class="d">'+T(d)+'</span></span>';
+  return '<span class="fr '+(cls||'')+'">'+(w!=null?'<span class="w">'+T(w)+'</span>':'')+st+'</span>';
+}
+function N(v,cls){return '<span class="fr '+(cls||'')+'"><span class="w">'+T(v)+'</span></span>';}
+const OP=s=>'<span class="op">'+s+'</span>';
+const DIV=OP('÷'), MUL=OP('×'), EQ=OP('='), GT=OP('&gt;');
+function eq(){return '<div class="eq">'+[].slice.call(arguments).join('')+'</div>';}
+
+/* 저장 */
+const KEY='fdlab-progress-v1';
+let PROG={};
+try{PROG=JSON.parse(localStorage.getItem(KEY))||{};}catch(e){PROG={};}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(PROG));}catch(e){}}
+function pget(li){if(!PROG[li])PROG[li]=[0,0,0,0];return PROG[li];}
+function pdone(li,si){pget(li)[si]=1;save();}
+
+/* ══════════════════════════════════════════════════════════
+   2. 드래그 엔진 (마우스·터치 공용)
+   ══════════════════════════════════════════════════════════ */
+const DND={zones:[],cur:null,active:null};
+function zone(node,opt){
+  opt=opt||{};
+  node.__z={accept:opt.accept||function(){return true;},drop:opt.drop||function(){}};
+  DND.zones.push(node);
+  return node;
+}
+function clearZones(){DND.zones=[];}
+function source(node,payload,ghostHTML){
+  node.__p=payload; node.__g=ghostHTML||node.outerHTML;
+  node.style.touchAction='none';
+  node.addEventListener('pointerdown',startDrag);
+  return node;
+}
+function startDrag(ev){
+  const n=ev.currentTarget;
+  if(n.classList.contains('used')||n.classList.contains('locked')){
+    if(n.__onBlocked)n.__onBlocked(); return;
+  }
+  ev.preventDefault();
+  const g=$('#ghost'); g.innerHTML=n.__g; g.hidden=false;
+  DND.active={node:n,payload:n.__p};
+  moveDrag(ev);
+  window.addEventListener('pointermove',moveDrag);
+  window.addEventListener('pointerup',endDrag,{once:true});
+}
+function moveDrag(ev){
+  const g=$('#ghost'); g.style.left=ev.clientX+'px'; g.style.top=ev.clientY+'px';
+  let best=null,bestA=Infinity;
+  for(const z of DND.zones){
+    if(!z.isConnected)continue;
+    const r=z.getBoundingClientRect();
+    if(ev.clientX>=r.left&&ev.clientX<=r.right&&ev.clientY>=r.top&&ev.clientY<=r.bottom){
+      const a=r.width*r.height;
+      if(a<bestA&&z.__z.accept(DND.active.payload)){best=z;bestA=a;}
+    }
+  }
+  if(DND.cur&&DND.cur!==best)DND.cur.classList.remove('on');
+  DND.cur=best; if(best)best.classList.add('on');
+}
+function endDrag(ev){
+  window.removeEventListener('pointermove',moveDrag);
+  $('#ghost').hidden=true;
+  if(DND.cur){DND.cur.classList.remove('on'); DND.cur.__z.drop(DND.active.payload,DND.active.node);}
+  DND.cur=null; DND.active=null;
+}
+
+/* ══════════════════════════════════════════════════════════
+   3. 모형 부품
+   ══════════════════════════════════════════════════════════ */
+function bar(parts,opts){
+  opts=opts||{};
+  const w=h('div','barwrap');
+  if(opts.top) w.append(H('<div class="barlabel">'+opts.top+'</div>'));
+  const b=h('div','bar'+(opts.slim?' h56':'')); b.style.gridTemplateColumns='repeat('+parts+',1fr)';
+  for(let i=0;i<parts;i++){const c=h('div','cell');c.dataset.i=i;b.append(c);}
+  w.append(b);
+  if(opts.scale){
+    const s=h('div','scale'); s.style.gridTemplateColumns='repeat('+parts+',1fr)';
+    for(let i=0;i<parts;i++)s.append(h('span',null,opts.scale(i)||''));
+    w.append(s);
+  }
+  w.bar=b; w.cells=[].slice.call(b.children); w.parts=parts;
+  w.setFill=function(k,cls){w.cells.forEach(function(c,i){c.className='cell'+(i<k?' '+(cls||'f'):'');});};
+  if(opts.fill!=null)w.setFill(opts.fill,opts.cls);
+  return w;
+}
+function vessel(cap,label){
+  const v=h('div','vessel');
+  v.innerHTML='<span class="cap">'+(label||'')+'</span><div class="fillbar" style="height:0"></div><span class="cnt"></span>';
+  v.cap=cap; v.n=0;
+  v.set=function(n){v.n=n; $('.fillbar',v).style.height=(100*n/cap)+'%';
+    $('.cnt',v).textContent=n?n+'/'+cap:''; v.classList.toggle('full',n>=cap);};
+  return v;
+}
+function nline(parts,labels){
+  const n=h('div','nline');
+  n.innerHTML='<div class="axis"></div>';
+  for(let i=0;i<=parts;i++){
+    const p=100*i/parts;
+    n.append(H('<div class="tk" style="left:calc('+p+'% - 1px)"></div>'));
+    if(labels&&labels[i]!=null)n.append(H('<div class="tl" style="left:'+p+'%">'+labels[i]+'</div>'));
+  }
+  n.seg=function(from,to,cls,text){
+    const s=H('<div class="seg '+cls+'" style="left:'+(100*from/parts)+'%;width:'+(100*(to-from)/parts)+'%">'+(text||'')+'</div>');
+    n.append(s); return s;
+  };
+  return n;
+}
+function disc(d,opts){
+  opts=opts||{};
+  const w=h('div','disc'+(opts.done?' done':''));
+  w.draw=function(cut){
+    const R=44,C=48; let g='';
+    if(cut){for(let i=0;i<d;i++){const a=-90+360*i/d;
+      const x=C+R*Math.cos(a*Math.PI/180),y=C+R*Math.sin(a*Math.PI/180);
+      g+='<line x1="'+C+'" y1="'+C+'" x2="'+x.toFixed(1)+'" y2="'+y.toFixed(1)+'" stroke="var(--teal)" stroke-width="2.5"/>';}}
+    const body=opts.half
+      ? '<circle cx="48" cy="48" r="'+R+'" fill="none" stroke="var(--line-strong)" stroke-width="3"/><path d="M48 4 A44 44 0 0 1 48 92 Z" fill="var(--teal-soft)"/>'
+      : '<circle cx="48" cy="48" r="'+R+'" fill="var(--teal-soft)" stroke="var(--line-strong)" stroke-width="3"/>';
+    w.innerHTML='<svg viewBox="0 0 96 96">'+body+g+'</svg>'+((!cut&&!opts.done)?'<span class="hint">클릭</span>':'');
+  };
+  w.draw(!!opts.cut); return w;
+}
+
+/* 기준 막대에 비례하는 폭을 가진 '틀/자' 카드.
+   n/d 만큼의 실제 길이로 보이므로 카드와 양을 곧바로 연결할 수 있다. */
+function frameToken(refEl,n,d,label,cls){
+  const inner='<span class="g" style="grid-template-columns:repeat('+n+',1fr)">'+
+    new Array(n).fill('<i></i>').join('')+'</span><span class="l">'+label+'</span>';
+  const t=h('div','token ftok '+(cls||'a'),inner);
+  t.style.width=(100*n/d)+'%'; t.style.height='80px';
+  t.addEventListener('pointerdown',function(){
+    const w=refEl.getBoundingClientRect().width*n/d;
+    t.__g='<div class="token ftok '+(cls||'a')+'" style="width:'+Math.round(w)+
+      'px;height:80px">'+inner+'</div>';
+  });
+  return t;
+}
+
+/* ══════════════════════════════════════════════════════════
+   4. 정답 확인 · 선택형
+   ══════════════════════════════════════════════════════════ */
+function norm(s){return String(s).replace(/\s/g,'');}
+function checker(scope,spec){
+  const answers=spec.answers, hints=spec.hints||{};
+  const btn=h('button','btn pri',spec.label||'확인');
+  const inputs=function(){return $$('input[data-b]',scope).sort(function(a,b){return a.dataset.b-b.dataset.b;});};
+  let tries=0, solved=false;
+  const run=function(){
+    if(solved)return;
+    let bad=[],empty=0;
+    inputs().forEach(function(inp){
+      const key=inp.dataset.b, want=answers[key];
+      if(want==null)return;
+      const v=norm(inp.value);
+      if(v==='')empty++;
+      const list=(Array.isArray(want)?want:[want]).map(norm);
+      const ok=list.indexOf(v)>=0;
+      inp.classList.toggle('ok',ok); inp.classList.toggle('no',!ok&&v!=='');
+      if(!ok)bad.push({inp:inp,key:key,v:v});
+    });
+    if(!bad.length){
+      solved=true; btn.disabled=true; btn.textContent='잘했어요';
+      spec.msg&&spec.msg('ok',spec.okMsg||'모두 맞았어요.');
+      spec.onSolved&&spec.onSolved();
+      return;
+    }
+    tries++;
+    let m=null;
+    for(const b of bad){ const hh=hints[b.key]; if(hh&&hh[b.v]){m=hh[b.v];break;} }
+    if(!m&&empty)m='빈칸을 모두 채워 볼까요?';
+    if(!m)m=(tries>=2&&spec.tip)?spec.tip:'빨간 칸을 다시 살펴보세요.';
+    spec.msg&&spec.msg(tries>=2?'tip':'no',m);
+  };
+  btn.addEventListener('click',run);
+  scope.addEventListener('keydown',function(e){if(e.key==='Enter')run();});
+  return btn;
+}
+function mcq(spec){
+  const w=h('div','mcq'); w.append(H('<div class="q">'+spec.q+'</div>'));
+  const btns=spec.options.map(function(o,i){
+    const b=h('button','opt','<span class="k">'+'㉠㉡㉢㉣'[i]+'</span><span>'+o.label+'</span>');
+    b.addEventListener('click',function(){
+      if(o.correct){
+        b.classList.add('ok'); btns.forEach(function(x){x.disabled=true;});
+        spec.msg&&spec.msg('ok',o.feedback||'맞았어요.'); spec.onSolved&&spec.onSolved();
+      }else{
+        b.classList.add('no'); b.disabled=true;
+        spec.msg&&spec.msg('no',o.feedback||'다시 생각해 볼까요?');
+      }
+    });
+    w.append(b); return b;
+  });
+  return w;
+}
+function drill(items,ctx,intro){
+  const wrap=h('div','col');
+  if(intro)wrap.append(H('<div class="note">'+intro+'</div>'));
+  const g=h('div','drill'); wrap.append(g);
+  let left=items.length;
+  items.forEach(function(it,i){
+    const card=h('div','dq');
+    card.append(H('<span class="qn">문제 '+(i+1)+'</span>'));
+    card.append(H('<div class="col">'+it.html+'</div>'));
+    const row=h('div','row');
+    const btn=checker(card,{answers:it.answers,hints:it.hints,tip:it.tip,label:'확인',
+      msg:function(k,m){let b=$('.msg',card); if(!b){b=h('div','msg');card.append(b);}
+        b.className='msg '+k;
+        b.innerHTML='<span class="m-k">'+(k==='ok'?'정답':'다시')+'</span><span>'+m+'</span>';},
+      onSolved:function(){card.classList.add('solved');
+        if(--left===0){ctx.done();ctx.say('ok','연습을 모두 해결했어요. 이 차시를 마쳤습니다.');}}});
+    btn.classList.add('sm'); row.append(btn); card.append(row); g.append(card);
+  });
+  return wrap;
+}
+
+/* ══════════════════════════════════════════════════════════
+   5. 화면 전환
+   ══════════════════════════════════════════════════════════ */
+const STEPKIND=[['STEP 1','구체물로 조작하기'],['STEP 2','그림으로 나타내기'],['STEP 3','식으로 쓰기'],['STEP 4','규칙 찾고 연습하기']];
+
+function renderHome(){
+  clearZones();
+  const v=$('#view'); v.innerHTML='';
+  const hero=h('section','hero');
+  hero.append(H('<div class="wrap">'+
+    '<div class="eyebrow">6학년 2학기 · 1단원 · 분수의 나눗셈</div>'+
+    '<h1>손으로 옮겨 보고, 그림으로 확인하고,<br>그다음에 식을 씁니다.</h1>'+
+    '<p>남극 과학 기지의 관측 상황으로 여섯 차시를 공부합니다. 각 차시는 네 단계로 나뉘어 있고, 앞 단계를 해결해야 다음 단계가 열립니다.</p>'+
+    '<div class="flowline">'+STEPKIND.map(function(s,i){return '<div class="fl"><b>'+(i+1)+'</b>'+s[1]+'</div>';}).join('<span class="arw">→</span>')+'</div>'+
+    '</div>'));
+  v.append(hero);
+  const g=h('div','grid');
+  LESSONS.forEach(function(L,i){
+    const p=pget(i), n=p.filter(Boolean).length;
+    const c=h('button','card');
+    c.innerHTML='<span class="no">'+L.no+'차시</span><h3>'+L.title+'</h3><p class="sub">'+L.sub+'</p>'+
+      '<div class="expr">'+L.expr+'</div>'+
+      '<div class="dots">'+p.map(function(x){return '<i class="'+(x?'on':'')+'"></i>';}).join('')+'<span>'+n+'/4</span></div>';
+    c.addEventListener('click',function(){go(i,firstOpen(i));});
+    g.append(c);
+  });
+  const wrap=h('div','wrap'); wrap.append(g); v.append(wrap);
+}
+function firstOpen(li){const p=pget(li);for(let i=0;i<4;i++)if(!p[i])return i;return 3;}
+function canOpen(li,si){const p=pget(li);return si===0||p[si-1]===1||p[si]===1;}
+
+function go(li,si){
+  clearZones();
+  const L=LESSONS[li], v=$('#view'); v.innerHTML='';
+  const head=h('header','lessonhead');
+  head.append(H('<div class="wrap">'+
+    '<div class="lh-top"><span class="no">'+L.no+'차시</span><h2>'+L.title+'</h2><span class="goal">'+L.goal+'</span></div>'+
+    '<nav class="steps"></nav></div>'));
+  const nav=$('.steps',head);
+  const stepBtns=STEPKIND.map(function(s,i){
+    const b=h('button',(i===si?'cur ':'')+(pget(li)[i]?'ok':''),
+      '<span class="k">'+s[0]+'</span><span class="t">'+(L.steps[i].label||s[1])+'</span>');
+    b.disabled=!canOpen(li,i);
+    b.addEventListener('click',function(){go(li,i);}); nav.append(b); return b;
+  });
+  v.append(head);
+
+  const main=h('main'), wrap=h('div','wrap'); main.append(wrap); v.append(main);
+  const st=L.steps[si];
+  wrap.append(H('<div class="task"><span class="lab">할 일</span><span class="txt">'+st.task+'</span></div>'));
+  const stage=h('div','stage'), board=h('div','board'), panel=h('div','panel'), msg=h('div','msg hide');
+  stage.append(board,panel,msg); wrap.append(stage);
+
+  const foot=h('footer','footbar'); v.append(foot);
+  const fw=h('div','wrap'); foot.append(fw);
+  const prev=h('button','btn ghost','← 이전');
+  prev.addEventListener('click',function(){si>0?go(li,si-1):renderHome();});
+  const next=h('button','btn pri',si<3?'다음 단계 →':'차시 목록으로 →');
+  const lock=h('span','lock','활동을 해결하면 다음 단계가 열립니다.');
+  next.disabled=!pget(li)[si];
+  if(!next.disabled)lock.textContent='';
+  next.addEventListener('click',function(){si<3?go(li,si+1):renderHome();});
+  fw.append(prev,h('span','prog',L.no+'차시 · '+STEPKIND[si][0]+' / 4'),h('span','spacer'),lock,next);
+
+  const ctx={
+    board:board,panel:panel,stage:stage,li:li,si:si,
+    say:function(kind,html){msg.className='msg '+kind;
+      msg.innerHTML='<span class="m-k">'+(kind==='ok'?'좋아요':kind==='tip'?'힌트':'다시')+'</span><span>'+html+'</span>';},
+    hide:function(){msg.className='msg hide';},
+    done:function(){pdone(li,si);next.disabled=false;lock.textContent='';stepBtns[si].classList.add('ok');
+      for(let k=0;k<4;k++)stepBtns[k].disabled=!canOpen(li,k);},
+    isDone:function(){return !!pget(li)[si];}
+  };
+  ctx.check=function(scope,spec){spec=spec||{};spec.msg=ctx.say;return checker(scope,spec);};
+  ctx.mcq=function(spec){spec.msg=ctx.say;return mcq(spec);};
+  st.build(ctx);
+  window.scrollTo(0,0);
+}
+$('#btn-home').addEventListener('click',renderHome);
+$('#btn-reset').addEventListener('click',function(){
+  if(confirm('이 컴퓨터에 저장된 진행 기록을 모두 지울까요?')){PROG={};save();renderHome();}
+});
+</script>
+
+<script>
+var LESSONS=[];
+
+/* ══════════════════════════════════════════════════════════
+   1차시 · 분모가 같은 (분수)÷(분수) ① 나누어떨어지는 경우
+   ══════════════════════════════════════════════════════════ */
+LESSONS.push({
+ no:1, title:'분모가 같은 분수의 나눗셈 ①',
+ sub:'분자끼리 나누어떨어지는 경우',
+ goal:'단위분수가 몇 개인지 세어 분자끼리 나눕니다.',
+ expr:eq(F(7,10),DIV,F(1,10),EQ,'<span class="num">7</span>'),
+ steps:[
+ /* ── STEP 1 ─────────────────────────────────────────── */
+ {label:'비료 덜어내기',
+  task:'식물 공장의 비료 <em>7/10 kg</em>을 화분 한 개에 <em>1/10 kg</em>씩 담습니다. 막대의 칸을 <em>끌어서</em> 화분에 옮겨 보세요.',
+  build:function(ctx){
+    const sc=h('div','scene');
+    sc.append(H('<h4>식물 공장 · 비료 나누어 담기</h4>'));
+    const b=bar(10,{fill:7,
+      top:'<span>비료 '+F(7,10,null,'sm')+' kg</span><span class="note">한 칸 = '+F(1,10,null,'sm')+' kg</span>'});
+    sc.append(b);
+    const info=H('<div class="row center" style="margin-top:16px"><span class="tag a">덜어낸 횟수 <b class="cnt">0</b>번</span><span class="tag t">남은 비료 <b class="rest">7</b>칸</span></div>');
+    sc.append(info);
+    sc.append(H('<div class="note" style="margin-top:18px">화분 — 한 개에 '+F(1,10,null,'sm')+' kg</div>'));
+    const vs=h('div','vessels'); const pots=[];
+    for(let i=0;i<7;i++){const v=vessel(1,F(1,10,null,'sm')+' kg'); vs.append(v); pots.push(v);}
+    sc.append(vs);
+    ctx.board.append(sc);
+
+    let moved=0;
+    b.cells.slice(0,7).forEach(function(c){
+      c.classList.add('pick');
+      source(c,'bit','<div class="token">'+F(1,10,null,'sm')+'</div>');
+    });
+    pots.forEach(function(v){
+      zone(v,{accept:function(){return v.n===0;},drop:function(p,node){
+        if(node.classList.contains('used'))return;
+        node.classList.add('gone','used'); node.classList.remove('f');
+        v.set(1); moved++;
+        $('.cnt',info).textContent=moved; $('.rest',info).textContent=7-moved;
+        if(moved===7){
+          ctx.say('ok','비료 '+F(7,10,null,'sm')+' kg에서 '+F(1,10,null,'sm')+' kg을 <b>7번</b> 덜어냈어요. 화분 <b>7개</b>에 담았습니다.');
+          ctx.panel.innerHTML='';
+          ctx.panel.append(H('<div class="rule"><h4>지금 한 일</h4><p>'+
+            F(7,10,null,'sm')+' kg 안에 '+F(1,10,null,'sm')+' kg이 <b>몇 번</b> 들어가는지 세었습니다. 이것이 '+
+            F(7,10,null,'sm')+' ÷ '+F(1,10,null,'sm')+' 의 뜻이에요.</p></div>'));
+          ctx.done();
+        }else{
+          ctx.say('tip','좋아요. '+(7-moved)+'칸 더 옮겨 보세요.');
+        }
+      }});
+    });
+    ctx.say('tip','막대의 파란 칸 하나를 누른 채 화분으로 끌어다 놓으세요.');
+  }},
+ /* ── STEP 2 ─────────────────────────────────────────── */
+ {label:'몇 개인지 세기',
+  task:'막대의 파란 칸을 <em>차례로 클릭</em>해서 1/10이 몇 개인지 세어 보세요. 그다음 빈칸을 채웁니다.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>단위분수 1/10로 세어 보기</h4>'));
+    const b1=bar(10,{fill:7,top:'<span>'+F(7,10,null,'sm')+'</span><span class="note">클릭해서 세어 보세요</span>'});
+    const b2=bar(10,{fill:1,slim:true,cls:'fa',top:'<span>'+F(1,10,null,'sm')+'</span>'});
+    sc.append(b1,H('<div style="height:14px"></div>'),b2);
+    ctx.board.append(sc);
+
+    let n=0;
+    b1.cells.slice(0,7).forEach(function(c){
+      c.classList.add('cnt');
+      c.addEventListener('click',function(){
+        if(c.querySelector('.mark'))return;
+        n++; c.append(H('<span class="mark">'+n+'</span>'));
+        if(n===7){ctx.say('ok','1/10이 <b>7개</b>예요. 이제 아래 빈칸을 채워 보세요.'); chk.disabled=false;}
+      });
+    });
+
+    const p=h('div','col');
+    p.append(H('<div class="row">'+F(7,10,null,'sm')+' 은 '+F(1,10,null,'sm')+' 이 '+BL(0)+' 개입니다.</div>'));
+    p.append(H('<div class="row">'+F(1,10,null,'sm')+' 은 '+F(1,10,null,'sm')+' 이 '+BL(1)+' 개입니다.</div>'));
+    p.append(H('<hr class="hr">'));
+    p.append(H('<div class="note">개수끼리 비교하면 자연수의 나눗셈이 됩니다.</div>'));
+    p.append(H(eq(F(7,10),DIV,F(1,10),EQ,N('_2'),DIV,N('_3'),EQ,N('_4'))));
+    ctx.panel.append(p);
+    const chk=ctx.check(p,{answers:{0:'7',1:'1',2:'7',3:'1',4:'7'},
+      hints:{2:{'10':'세어야 하는 것은 <b>1/10의 개수</b>예요. 분모 10이 아니라 분자 7입니다.'},
+             4:{'70':'7÷1 을 계산해 보세요.','1':'7÷1 은 7입니다.'}},
+      tip:'7/10은 1/10이 7개, 1/10은 1/10이 1개 → 7 ÷ 1',
+      okMsg:'분모가 같으니 <b>분자끼리</b> 나누면 됩니다.',
+      onSolved:function(){ctx.done();}});
+    chk.disabled=true;
+    const row=h('div','row'); row.append(chk); p.append(row);
+    ctx.say('tip','파란 칸을 하나씩 클릭하며 세어 보세요. 다 세면 확인 버튼이 열립니다.');
+  }},
+ /* ── STEP 3 ─────────────────────────────────────────── */
+ {label:'묶어서 식 쓰기',
+  task:'<em>4/9 ÷ 2/9</em> 입니다. 오른쪽 <em>2/9 묶음틀</em>을 막대 위로 끌어다 놓아 몇 묶음이 되는지 알아보세요.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>호두파이 '+F(4,9,null,'sm')+' 판을 '+F(2,9,null,'sm')+' 판씩 묶기</h4>'));
+    const b=bar(9,{fill:4,top:'<span>호두파이 '+F(4,9,null,'sm')+' 판</span><span class="note">한 칸 = '+F(1,9,null,'sm')+' 판</span>'});
+    b.bar.style.position='relative';
+    const holder=h('div','ftok-holder');
+    const tok=frameToken(b.bar,2,9,F(2,9,null,'sm')+' 틀');
+    holder.append(tok);
+    sc.append(b,H('<div class="note" style="margin-top:20px">묶음틀 — 막대의 두 칸과 폭이 같습니다</div>'),holder);
+    ctx.board.append(sc);
+
+    let g=0;
+    source(tok,'grp');
+    zone(b.bar,{drop:function(){
+      if(g>=2){ctx.say('tip','더 묶을 파이가 없어요. 남은 칸은 파이가 없는 부분입니다.');return;}
+      const el=H('<div class="grp" style="left:'+(100*g*2/9)+'%;width:'+(200/9)+'%"><b>'+(g+1)+'묶음</b></div>');
+      b.bar.append(el); g++;
+      if(g===2){
+        ctx.say('ok',''+F(4,9,null,'sm')+' 안에 '+F(2,9,null,'sm')+' 이 <b>2묶음</b> 들어갑니다. 아래 식을 채워 보세요.');
+        p.hidden=false;
+      }else ctx.say('tip','한 묶음 만들었어요. 한 번 더 끌어다 놓아 보세요.');
+    }});
+
+    const p=h('div','col'); p.hidden=true;
+    p.append(H(eq(F(4,9),DIV,F(2,9),EQ,N('_0'),DIV,N('_1'),EQ,N('_2'))));
+    const mq=ctx.mcq({q:'분모 9는 왜 나누지 않았을까요?',
+      options:[
+        {label:'9 ÷ 9 = 1 이라서 그대로 두면 되기 때문',feedback:'우연히 1이 되지만 그것이 이유는 아니에요. 분모는 나누는 대상이 아닙니다.'},
+        {label:'두 분수의 조각 크기(1/9)가 같으니 조각의 개수만 비교하면 되기 때문',correct:true,
+         feedback:'맞았어요. 분모는 <b>조각의 크기를 알려주는 이름</b>이라서 나누지 않습니다.'},
+        {label:'분모는 어떤 나눗셈에서든 항상 그대로 두는 규칙이라서',feedback:'분모가 다를 때는 그대로 둘 수 없어요. 3차시에서 확인합니다.'}
+      ],onSolved:function(){okMcq=true;tryDone();}});
+    let okMcq=false, okEq=false;
+    function tryDone(){if(okMcq&&okEq)ctx.done();}
+    const chk=ctx.check(p,{answers:{0:'4',1:'2',2:'2'},
+      hints:{0:{'9':'분자는 4예요. 분모 9는 나누지 않습니다.'},2:{'9':'4÷2를 계산해 보세요.'}},
+      tip:'조각의 개수는 4개와 2개 → 4 ÷ 2',
+      onSolved:function(){okEq=true;tryDone();}});
+    const row=h('div','row'); row.append(chk); p.append(row,H('<hr class="hr">'),mq);
+    ctx.panel.append(p);
+    ctx.say('tip','주황색 묶음틀을 막대 위로 끌어다 놓으세요.');
+  }},
+ /* ── STEP 4 ─────────────────────────────────────────── */
+ {label:'규칙과 연습',
+  task:'기호 카드를 끌어다 규칙을 완성하고, 연습 문제 네 개를 모두 해결하세요.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>규칙 만들기</h4>'));
+    const line=h('div','row center');
+    line.style.fontSize='1.2rem';
+    line.append(H('<span class="eq">'+F('■','▲')+DIV+F('●','▲')+EQ+'</span>'));
+    const s1=h('div','slot','여기'), s2=h('div','slot','여기');
+    line.append(s1,H('<span class="eq">'+OP('÷')+'</span>'),s2);
+    sc.append(line);
+    sc.append(H('<div class="note" style="margin-top:20px">카드</div>'));
+    const cards=h('div','row');
+    ['■','●','▲'].forEach(function(sym){
+      const t=h('div','token'+(sym==='▲'?' a':''),sym);
+      source(t,sym); cards.append(t);
+    });
+    sc.append(cards);
+    ctx.board.append(sc);
+
+    let f1=null,f2=null;
+    function fill(slot,which){
+      zone(slot,{drop:function(p,node){
+        if(p==='▲'){ctx.say('no','분모 <b>▲</b>는 나누지 않아요. 두 분수의 조각 크기가 같다는 <b>이름</b>일 뿐입니다.');return;}
+        if(which===1&&p!=='■'){ctx.say('no','첫 번째 칸에는 나누어지는 분수의 분자가 옵니다.');return;}
+        if(which===2&&p!=='●'){ctx.say('no','두 번째 칸에는 나누는 분수의 분자가 옵니다.');return;}
+        slot.textContent=p; slot.classList.add('has'); node.classList.add('used');
+        if(which===1)f1=p; else f2=p;
+        if(f1&&f2){ctx.say('ok','분모가 같은 (분수)÷(분수)는 <b>분자끼리 나눕니다.</b>');drills.hidden=false;}
+      }});
+    }
+    fill(s1,1); fill(s2,2);
+
+    const drills=h('div','col'); drills.hidden=true;
+    drills.append(H('<div class="rule"><h4>1차시 정리</h4><p>'+F('■','▲')+' ÷ '+F('●','▲')+' = ■ ÷ ● — 분모가 같으면 <b>분자끼리</b> 나눕니다.</p></div>'));
+    drills.append(drill([
+      {html:eq(F(2,3),DIV,F(1,3),EQ,N('_0')),answers:{0:'2'},tip:'2 ÷ 1'},
+      {html:eq(F(18,19),DIV,F(1,19),EQ,N('_0')),answers:{0:'18'},tip:'18 ÷ 1'},
+      {html:eq(F(6,7),DIV,F(3,7),EQ,N('_0')),answers:{0:'2'},tip:'6 ÷ 3'},
+      {html:eq(F(10,17),DIV,F(2,17),EQ,N('_0')),answers:{0:'5'},tip:'10 ÷ 2'}
+    ],ctx,'분자끼리 나누어 몫을 구해 보세요.'));
+    ctx.panel.append(drills);
+    ctx.say('tip','■ 카드와 ● 카드를 빈 칸으로 끌어다 놓으세요.');
+  }}
+ ]});
+
+/* ══════════════════════════════════════════════════════════
+   2차시 · 분모가 같은 (분수)÷(분수) ② 나누어떨어지지 않는 경우
+   ══════════════════════════════════════════════════════════ */
+LESSONS.push({
+ no:2, title:'분모가 같은 분수의 나눗셈 ②',
+ sub:'분자끼리 나누어떨어지지 않는 경우',
+ goal:'남은 부분을 나누는 양의 몇 분의 몇으로 나타냅니다.',
+ expr:eq(F(5,7),DIV,F(2,7),EQ,F(1,2,2)),
+ steps:[
+ /* ── STEP 1 ─────────────────────────────────────────── */
+ {label:'컵에 옮겨 담기',
+  task:'바닷물로 만든 식수 <em>5/7 L</em>를 들이가 <em>2/7 L</em>인 컵에 옮겨 담습니다. 막대의 칸을 끌어다 컵에 담아 보세요.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>식수 '+F(5,7,null,'sm')+' L 를 '+F(2,7,null,'sm')+' L 컵에 담기</h4>'));
+    const b=bar(7,{fill:5,top:'<span>식수 '+F(5,7,null,'sm')+' L</span><span class="note">한 칸 = '+F(1,7,null,'sm')+' L</span>'});
+    sc.append(b);
+    const info=H('<div class="row center" style="margin-top:16px"><span class="tag t">옮긴 칸 <b class="mv">0</b>/5</span></div>');
+    sc.append(info);
+    sc.append(H('<div class="note" style="margin-top:18px">컵 — 하나가 가득 차면 '+F(2,7,null,'sm')+' L (점선은 컵의 절반)</div>'));
+    const vs=h('div','vessels'); const cups=[];
+    for(let i=0;i<3;i++){
+      const v=vessel(2,(i+1)+'컵'); v.append(H('<span class="half"></span>')); vs.append(v); cups.push(v);
+    }
+    sc.append(vs); ctx.board.append(sc);
+
+    let moved=0;
+    b.cells.slice(0,5).forEach(function(c){
+      c.classList.add('pick'); source(c,'bit','<div class="token">'+F(1,7,null,'sm')+'</div>');
+    });
+    cups.forEach(function(v,idx){
+      zone(v,{accept:function(){return v.n<v.cap&&(idx===0||cups[idx-1].n>=2);},drop:function(pl,node){
+        if(node.classList.contains('used'))return;
+        node.classList.add('gone','used'); node.classList.remove('f');
+        v.set(v.n+1); moved++; $('.mv',info).textContent=moved;
+        if(moved===5){
+          ctx.say('ok','2컵은 가득 찼고, 3번째 컵은 <b>절반</b>만 찼어요. 아래 질문에 답해 보세요.');
+          mq.hidden=false;
+        }
+      }});
+    });
+    const mq=h('div','col'); mq.hidden=true;
+    mq.append(ctx.mcq({q:'마지막 컵은 <b>한 컵</b>의 얼마만큼 찼나요?',
+      options:[
+        {label:'한 컵의 '+F(1,7,null,'sm'),feedback:'1/7은 <b>전체 1 L</b>를 기준으로 한 크기예요. 지금 묻는 기준은 <b>한 컵</b>입니다.'},
+        {label:'한 컵의 '+F(1,2,null,'sm'),correct:true,feedback:'맞았어요. 한 컵은 2칸인데 1칸만 들어 있으니 <b>반 컵</b>입니다.'},
+        {label:'한 컵의 '+F(1,3,null,'sm'),feedback:'컵 하나는 2칸이에요. 그 중 1칸이니 3분의 1이 아닙니다.'}
+      ],onSolved:function(){
+        ctx.panel.append(H('<div class="rule"><h4>지금 알아낸 것</h4><p>'+
+          F(5,7,null,'sm')+' L 를 '+F(2,7,null,'sm')+' L 씩 담으면 <b>2컵과 반 컵</b>, 즉 '+F(1,2,2,'sm')+' 컵이 됩니다.</p></div>'));
+        ctx.done();
+      }}));
+    ctx.panel.append(mq);
+    ctx.say('tip','칸을 끌어다 첫 번째 컵부터 채워 보세요.');
+  }},
+ /* ── STEP 2 ─────────────────────────────────────────── */
+ {label:'기준 바꿔 보기',
+  task:'남은 조각 하나를 <em>두 개의 틀</em>에 각각 끌어다 놓고, 같은 조각이 기준에 따라 어떻게 달리 읽히는지 확인하세요.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>같은 조각, 다른 기준</h4>'));
+    const tokrow=h('div','row center');
+    const tok=h('div','token',F(1,7,null,'sm')+' 조각'); tokrow.append(tok);
+    sc.append(tokrow,H('<div style="height:22px"></div>'));
+
+    const two=h('div','two');
+    const A=h('div','way'); A.append(H('<h5>틀 ① 전체 1 L</h5>'));
+    const bA=bar(7,{slim:true}); A.append(bA);
+    const rA=H('<div class="row">읽기 → 전체의 '+F(1,'_0',null,'sm')+'</div>'); rA.hidden=true; A.append(rA);
+    const B=h('div','way'); B.append(H('<h5>틀 ② 한 컵 '+F(2,7,null,'sm')+' L</h5>'));
+    const bB=bar(2,{slim:true}); B.append(bB);
+    const rB=H('<div class="row">읽기 → 한 컵의 '+F(1,'_1',null,'sm')+'</div>'); rB.hidden=true; B.append(rB);
+    two.append(A,B); sc.append(two); ctx.board.append(sc);
+
+    source(tok,'p');
+    let inA=false,inB=false;
+    zone(bA.bar,{drop:function(){bA.setFill(1,'fa');rA.hidden=false;inA=true;check();}});
+    zone(bB.bar,{drop:function(){bB.setFill(1,'fa');rB.hidden=false;inB=true;check();}});
+    function check(){if(inA&&inB){ctx.say('tip','두 틀 모두 채웠어요. 빈칸의 분모를 써 보세요.'); p.hidden=false;}}
+
+    const p=h('div','col'); p.hidden=true;
+    p.append(H('<div class="note">위 두 칸을 채운 뒤 확인을 누르세요.</div>'));
+    const chk=ctx.check(sc,{answers:{0:'7',1:'2'},
+      hints:{1:{'7':'틀 ②의 기준은 <b>한 컵</b>이에요. 한 컵은 2칸이니 그 중 1칸은 1/2입니다.'}},
+      tip:'전체 1 L는 7칸 → 1/7 · 한 컵은 2칸 → 1/2',
+      okMsg:'같은 조각인데 <b>기준이 달라지면</b> 읽는 분수가 달라져요.',
+      onSolved:function(){okA=true;tryDone();}});
+    const row=h('div','row'); row.append(chk); p.append(row,H('<hr class="hr">'));
+    let okA=false,okB=false;
+    function tryDone(){if(okA&&okB){
+      ctx.panel.append(H('<div class="rule"><h4>꼭 기억할 것</h4><p>'+
+        F(5,7,null,'sm')+' ÷ '+F(2,7,null,'sm')+' 의 몫은 <b>컵의 수</b>입니다. 그래서 남은 조각도 <b>한 컵을 기준으로</b> 읽어 '+
+        F(1,2,2,'sm')+' 컵이 됩니다.</p></div>'));
+      ctx.done();}}
+    p.append(ctx.mcq({q:'어떤 친구가 '+F(5,7,null,'sm')+' ÷ '+F(2,7,null,'sm')+' = 2 나머지 '+F(1,7,null,'sm')+' 이라고 답했어요. 무엇이 잘못되었나요?',
+      options:[
+        {label:'몫은 컵의 수이므로 남은 것도 컵을 기준으로 반 컵, 즉 '+F(1,2,2,'sm')+' 이라고 써야 한다',correct:true,
+         feedback:'맞았어요. 나눗셈의 몫은 <b>나누는 양을 기준</b>으로 셉니다.'},
+        {label:'계산은 맞지만 나머지를 쓰는 형식만 틀렸다',feedback:'형식 문제가 아니에요. 몫 자체가 2가 아니라 2와 1/2입니다.'},
+        {label:'분수의 나눗셈에서는 나머지가 생길 수 없다',feedback:'남는 부분은 생길 수 있어요. 다만 그것을 <b>몫의 분수 부분</b>으로 나타냅니다.'}
+      ],onSolved:function(){okB=true;tryDone();}}));
+    ctx.panel.append(p);
+    ctx.say('tip','파란 조각 카드를 두 틀에 차례로 끌어다 놓으세요.');
+  }},
+ /* ── STEP 3 ─────────────────────────────────────────── */
+ {label:'가분수를 대분수로',
+  task:'반 조각 5개를 <em>1을 만드는 그릇</em>에 끌어다 담아 5/2가 몇과 얼마인지 알아보고, 식을 완성하세요.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>'+F(5,2,null,'sm')+' 은 얼마인가요</h4>'));
+    sc.append(H('<div class="note">반 조각 '+F(1,2,null,'sm')+' 카드 5개</div>'));
+    const cardrow=h('div','row'); const toks=[];
+    for(let i=0;i<5;i++){const t=h('div','token',F(1,2,null,'sm'));source(t,'half');cardrow.append(t);toks.push(t);}
+    sc.append(cardrow,H('<div style="height:22px"></div>'));
+    sc.append(H('<div class="note">그릇 — 반 조각 2개가 모이면 1이 됩니다</div>'));
+    const vs=h('div','vessels'); const jars=[];
+    for(let i=0;i<3;i++){const v=vessel(2,i<2?'1 만들기':'남는 것');vs.append(v);jars.push(v);}
+    sc.append(vs); ctx.board.append(sc);
+
+    let placed=0;
+    jars.forEach(function(v,idx){
+      zone(v,{accept:function(){return v.n<(idx<2?2:1);},drop:function(pl,node){
+        if(node.classList.contains('used'))return;
+        node.classList.add('used'); v.set(v.n+1); placed++;
+        if(placed===5){
+          const full=jars.filter(function(j){return j.n>=2;}).length;
+          if(full===2&&jars[2].n===1){
+            ctx.say('ok','1이 <b>2개</b>, 반 조각이 <b>1개</b> 남았어요. '+F(5,2,null,'sm')+' = '+F(1,2,2,'sm')+' 입니다.');
+            p.hidden=false;
+          }else{
+            ctx.say('tip','앞의 두 그릇을 먼저 가득 채워야 1이 몇 개인지 보여요. 다시 해 볼까요? (아래 되돌리기)');
+            reset.hidden=false;
+          }
+        }
+      }});
+    });
+    const reset=h('button','btn ghost sm','되돌리기'); reset.hidden=true;
+    reset.addEventListener('click',function(){placed=0;jars.forEach(function(j){j.set(0);});toks.forEach(function(t){t.classList.remove('used');});reset.hidden=true;ctx.hide();});
+    sc.append(H('<div style="height:14px"></div>'),reset);
+
+    const p=h('div','col'); p.hidden=true;
+    p.append(H('<div class="note">6학년 1학기에서 (자연수)÷(자연수)의 몫은 분수로 나타낼 수 있다고 배웠어요.</div>'));
+    p.append(H(eq(F(5,7),DIV,F(2,7),EQ,N('_0'),DIV,N('_1'),EQ,F('_2','_3'),EQ,F('_5','_6','_4'))));
+    const chk=ctx.check(p,{answers:{0:'5',1:'2',2:'5',3:'2',4:'2',5:'1',6:'2'},
+      hints:{3:{'7':'분자끼리 나눈 5÷2를 분수로 쓰면 분모는 <b>2</b>예요. 7이 아닙니다.'},
+             4:{'0':'1이 2개 들어 있으니 자연수 부분은 2입니다.'}},
+      tip:'5 ÷ 2 = 5/2 = 2와 1/2',
+      okMsg:'나누어떨어지지 않으면 몫을 <b>분수</b>로 나타냅니다.',
+      onSolved:function(){ctx.done();}});
+    const row=h('div','row'); row.append(chk); p.append(row);
+    ctx.panel.append(p);
+    ctx.say('tip','반 조각 카드를 그릇으로 끌어다 놓으세요. 앞의 그릇부터 채웁니다.');
+  }},
+ /* ── STEP 4 ─────────────────────────────────────────── */
+ {label:'연습',
+  task:'분자끼리 나눈 몫을 <em>가분수</em>로 나타내세요. 네 문제를 모두 해결하면 차시가 끝납니다.',
+  build:function(ctx){
+    ctx.board.append(H('<div class="rule"><h4>2차시 정리</h4><p>분모가 같고 분자끼리 나누어떨어지지 않으면, '+
+      F('■','▲')+' ÷ '+F('●','▲')+' = ■ ÷ ● = '+F('■','●')+' 처럼 <b>몫을 분수로</b> 나타냅니다.</p></div>'));
+    ctx.panel.append(drill([
+      {html:eq(F(3,5),DIV,F(4,5),EQ,F('_0','_1')),answers:{0:'3',1:'4'},tip:'3 ÷ 4 = 3/4'},
+      {html:eq(F(12,15),DIV,F(11,15),EQ,F('_0','_1')),answers:{0:'12',1:'11'},tip:'12 ÷ 11 = 12/11'},
+      {html:eq(F(7,8),DIV,F(5,8),EQ,F('_0','_1')),answers:{0:'7',1:'5'},tip:'7 ÷ 5 = 7/5'},
+      {html:eq(F(7,10),DIV,F(3,10),EQ,F('_0','_1')),answers:{0:'7',1:'3'},tip:'7 ÷ 3 = 7/3'}
+    ],ctx,'분모는 나누지 않습니다. 분자끼리만 나누어 분수로 쓰세요.'));
+  }}
+ ]});
+
+/* ══════════════════════════════════════════════════════════
+   3차시 · 분모가 다른 (분수)÷(분수)
+   ══════════════════════════════════════════════════════════ */
+LESSONS.push({
+ no:3, title:'분모가 다른 분수의 나눗셈',
+ sub:'통분해서 같은 단위로 만들기',
+ goal:'통분하여 조각의 크기를 같게 만든 뒤 분자끼리 나눕니다.',
+ expr:eq(F(3,4),DIV,F(4,7),EQ,F(5,16,1)),
+ steps:[
+ /* ── STEP 1 ─────────────────────────────────────────── */
+ {label:'눈금이 안 맞아요',
+  task:'<em>4/7 자</em>를 끌어다 3/4 막대 위에 올려 재어 보세요. 몇 개인지 정확히 셀 수 있을까요?',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>어제 주운 쓰레기 '+F(3,4,null,'sm')+' kg 은 오늘 '+F(4,7,null,'sm')+' kg 의 몇 배?</h4>'));
+    const bA=bar(4,{fill:3,top:'<span>어제 '+F(3,4,null,'sm')+' kg</span><span class="note">1을 4등분</span>'});
+    bA.bar.style.position='relative';
+    const bB=bar(7,{fill:4,slim:true,cls:'fa',top:'<span>오늘 '+F(4,7,null,'sm')+' kg</span><span class="note">1을 7등분</span>'});
+    sc.append(bA,H('<div style="height:16px"></div>'),bB,H('<div style="height:22px"></div>'));
+    const tr=h('div','ftok-holder'); const tok=frameToken(bA.bar,4,7,F(4,7,null,'sm')+' 자'); tr.append(tok); sc.append(tr);
+    ctx.board.append(sc);
+
+    let n=0; source(tok,'ruler');
+    zone(bA.bar,{drop:function(){
+      if(n>=2){ctx.say('tip','두 번째 자가 이미 3/4을 넘었어요. 아래 질문에 답해 보세요.');return;}
+      const left=100*n*4/7, w=400/7;
+      bA.bar.append(H('<div class="grp" style="left:'+left+'%;width:'+w+'%;'+(n===1?'border-style:dashed;':'')+'"><b>'+(n+1)+'개째</b></div>'));
+      n++;
+      if(n===1)ctx.say('tip','한 개는 들어갔어요. 한 번 더 올려 보세요.');
+      else{ctx.say('no','두 번째 자는 3/4 막대를 <b>넘어갑니다.</b> 딱 맞게 셀 수 없어요.');mq.hidden=false;}
+    }});
+    const mq=h('div','col'); mq.hidden=true;
+    mq.append(ctx.mcq({q:'왜 개수를 정확히 셀 수 없었을까요?',
+      options:[
+        {label:'두 막대의 <b>한 칸 크기</b>가 서로 달라서 개수로 비교할 수 없기 때문',correct:true,
+         feedback:'맞았어요. '+F(1,4,null,'sm')+' 과 '+F(1,7,null,'sm')+' 은 크기가 달라 같은 단위가 아닙니다.'},
+        {label:'3/4이 4/7보다 크기 때문',feedback:'크기 차이가 아니라 <b>단위가 다른 것</b>이 문제예요.'},
+        {label:'분모끼리 먼저 나누어야 하는데 안 했기 때문',feedback:'분모끼리 나누는 방법은 없어요. 먼저 <b>단위를 같게</b> 만들어야 합니다.'}
+      ],onSolved:function(){ctx.done();}}));
+    ctx.panel.append(mq);
+    ctx.say('tip','주황색 자 카드를 위쪽 막대로 끌어다 놓으세요.');
+  }},
+ /* ── STEP 2 ─────────────────────────────────────────── */
+ {label:'눈금 맞추기',
+  task:'아래 조절판으로 두 막대를 <em>똑같은 칸 수</em>로 나누어, 두 막대의 눈금이 <em>동시에</em> 딱 맞는 칸 수를 찾아보세요.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>같은 칸 수로 나누어 보기 (통분)</h4>'));
+    const wrapA=h('div'), wrapB=h('div');
+    sc.append(wrapA,H('<div style="height:16px"></div>'),wrapB);
+    const ctrl=H('<div class="row center" style="margin-top:26px">'+
+      '<button class="btn sm ghost" data-d="-1">− 1칸</button>'+
+      '<span class="tag a" style="font-size:1.3rem;padding:12px 22px">1을 <b class="nv">4</b>칸으로</span>'+
+      '<button class="btn sm ghost" data-d="1">+ 1칸</button></div>');
+    sc.append(ctrl);
+    const sl=H('<input type="range" min="4" max="40" value="4" style="width:100%;height:44px;margin-top:14px">');
+    sc.append(sl);
+    ctx.board.append(sc);
+
+    let n=4, locked=false;
+    function draw(){
+      $('.nv',ctrl).textContent=n; sl.value=n;
+      const okA=(n*3)%4===0, okB=(n*4)%7===0;
+      wrapA.innerHTML=''; wrapB.innerHTML='';
+      const a=bar(n,{fill:okA?n*3/4:0,top:'<span>'+F(3,4,null,'sm')+(okA?' = '+F(n*3/4,n,null,'sm'):'')+'</span><span class="note">'+(okA?'눈금이 맞아요':'눈금이 맞지 않아요')+'</span>'});
+      const b=bar(n,{fill:okB?n*4/7:0,cls:'fa',top:'<span>'+F(4,7,null,'sm')+(okB?' = '+F(n*4/7,n,null,'sm'):'')+'</span><span class="note">'+(okB?'눈금이 맞아요':'눈금이 맞지 않아요')+'</span>'});
+      if(!okA)a.bar.append(H('<div class="grp" style="left:75%;width:0;border-right:none;border-top:none;border-bottom:none;border-left-style:dashed"><b>'+F(3,4,null,'sm')+'</b></div>'));
+      if(!okB)b.bar.append(H('<div class="grp" style="left:57.142%;width:0;border-right:none;border-top:none;border-bottom:none;border-left-style:dashed"><b>'+F(4,7,null,'sm')+'</b></div>'));
+      a.bar.style.position='relative'; b.bar.style.position='relative';
+      wrapA.append(a); wrapB.append(b);
+      if(okA&&okB&&!locked){
+        locked=true;
+        ctx.say('ok','두 막대 모두 <b>'+n+'칸</b>에서 눈금이 맞았어요. '+F(3,4,null,'sm')+' = '+F(n*3/4,n,null,'sm')+' , '+F(4,7,null,'sm')+' = '+F(n*4/7,n,null,'sm')+' 입니다.');
+        ctx.panel.innerHTML='';
+        ctx.panel.append(H('<div class="rule"><h4>통분의 뜻</h4><p>두 분수를 <b>같은 칸 수</b>로 고치는 것이 통분입니다. 4와 7의 공배수 <b>28</b>이 되었을 때 두 막대가 같은 단위가 되어, 이제 조각의 개수 <b>21</b>개와 <b>16</b>개를 비교할 수 있어요.</p></div>'));
+        ctx.done();
+      }else if(okA&&!okB)ctx.say('tip','위쪽 막대만 맞았어요. <b>7</b>로도 나누어지는 칸 수를 찾아보세요.');
+      else if(okB&&!okA)ctx.say('tip','아래쪽 막대만 맞았어요. <b>4</b>로도 나누어지는 칸 수를 찾아보세요.');
+      else if(!locked)ctx.say('no',n+'칸에서는 두 막대 모두 눈금이 맞지 않아요.');
+    }
+    $$('button',ctrl).forEach(function(b){b.addEventListener('click',function(){
+      n=Math.min(40,Math.max(4,n+ +b.dataset.d)); draw();});});
+    sl.addEventListener('input',function(){n=+sl.value;draw();});
+    draw();
+  }},
+ /* ── STEP 3 ─────────────────────────────────────────── */
+ {label:'식으로 쓰기',
+  task:'앞에서 찾은 28칸을 이용해 식을 완성하세요.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>'+F(3,4,null,'sm')+' ÷ '+F(4,7,null,'sm')+' 계산하기</h4>'));
+    sc.append(bar(28,{fill:21,top:'<span>'+F(3,4,null,'sm')+' = '+F(21,28,null,'sm')+'</span><span class="note">28칸 중 21칸</span>'}));
+    sc.append(H('<div style="height:16px"></div>'));
+    sc.append(bar(28,{fill:16,cls:'fa',top:'<span>'+F(4,7,null,'sm')+' = '+F(16,28,null,'sm')+'</span><span class="note">28칸 중 16칸</span>'}));
+    ctx.board.append(sc);
+    const p=h('div','col');
+    p.append(H(eq(F(3,4),DIV,F(4,7),EQ,F('_0',28),DIV,F('_1',28),EQ,N('_2'),DIV,N('_3'),EQ,F('_4','_5'),EQ,F('_7','_8','_6'))));
+    const chk=ctx.check(p,{answers:{0:'21',1:'16',2:'21',3:'16',4:'21',5:'16',6:'1',7:'5',8:'16'},
+      hints:{5:{'28':'통분한 다음에는 <b>분자끼리</b>만 나눕니다. 몫의 분모는 나누는 분자 16이에요.'},
+             2:{'3':'통분한 분자는 21입니다.'},
+             6:{'0':'21/16은 1보다 커요. 21÷16 = 1 …남는 5'}},
+      tip:'21/28 ÷ 16/28 → 21 ÷ 16 → 21/16 → 1과 5/16',
+      okMsg:'통분해서 <b>같은 단위</b>로 만든 뒤 분자끼리 나누었습니다.',
+      onSolved:function(){okA=true;tryDone();}});
+    let okA=false,okB=false; function tryDone(){if(okA&&okB)ctx.done();}
+    const row=h('div','row'); row.append(chk); p.append(row,H('<hr class="hr">'));
+    p.append(ctx.mcq({q:'분모가 다를 때 '+F(3,4,null,'sm')+' ÷ '+F(4,7,null,'sm')+' 을 (3÷4)와 (4÷7)로 각각 나누어 계산하면 어떻게 될까요?',
+      options:[
+        {label:'분모끼리 나누는 계산은 없다. 통분해서 단위를 같게 만든 뒤 분자끼리 나눠야 한다',correct:true,
+         feedback:'맞았어요. 단위를 같게 만드는 것이 먼저입니다.'},
+        {label:'분모끼리도 나눌 수 있으므로 답이 맞다',feedback:'막대 눈금이 서로 달라 비교할 수 없다는 것을 1단계에서 확인했어요.'},
+        {label:'분자와 분모를 각각 나누면 항상 더 간단해진다',feedback:'간단해 보여도 답이 달라집니다. 21/16이 정답이에요.'}
+      ],onSolved:function(){okB=true;tryDone();}}));
+    ctx.panel.append(p);
+  }},
+ /* ── STEP 4 ─────────────────────────────────────────── */
+ {label:'연습',
+  task:'통분한 다음 분자끼리 나누어 몫을 가분수로 쓰세요.',
+  build:function(ctx){
+    ctx.board.append(H('<div class="rule"><h4>3차시 정리</h4><p>분모가 다르면 <b>먼저 통분</b>해서 조각의 크기를 같게 만들고, 그다음 <b>분자끼리</b> 나눕니다.</p></div>'));
+    ctx.panel.append(drill([
+      {html:eq(F(7,10),DIV,F(1,2),EQ,F('_0','_1')),answers:{0:'7',1:'5'},tip:'1/2 = 5/10 → 7 ÷ 5'},
+      {html:eq(F(2,3),DIV,F(3,4),EQ,F('_0','_1')),answers:{0:'8',1:'9'},tip:'8/12 ÷ 9/12 → 8 ÷ 9'},
+      {html:eq(F(3,4),DIV,F(5,8),EQ,F('_0','_1')),answers:{0:'6',1:'5'},tip:'6/8 ÷ 5/8 → 6 ÷ 5'},
+      {html:eq(F(5,6),DIV,F(3,8),EQ,F('_0','_1')),answers:{0:'20',1:'9'},tip:'20/24 ÷ 9/24 → 20 ÷ 9'}
+    ],ctx,'공통분모를 먼저 찾아 통분하세요.'));
+  }}
+ ]});
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════
+   4차시 · (자연수)÷(분수)
+   ══════════════════════════════════════════════════════════ */
+LESSONS.push({
+ no:4, title:'(자연수) ÷ (분수)',
+ sub:'1시간 동안 갈 수 있는 거리 — 단위량 구하기',
+ goal:'자연수를 분자로 나누고 분모를 곱합니다.',
+ expr:eq(N(6),DIV,F(2,3),EQ,N(9)),
+ steps:[
+ /* ── STEP 1 ─────────────────────────────────────────── */
+ {label:'1시간 채우기',
+  task:'아라온호가 <em>2/3시간</em>에 <em>6 km</em>를 갔습니다. ①「반으로 나누기」 카드를 색칠된 구간에 놓고, ② 만들어진 「3 km」 카드를 빈 구간에 놓아 1시간을 채우세요.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>아라온호 · 1시간 동안 몇 km?</h4>'));
+    const b=bar(3,{top:'<span>2/3시간에 6 km</span><span class="note">한 칸 = '+F(1,3,null,'sm')+'시간</span>',
+      scale:function(i){return ['0 ~ 1/3','1/3 ~ 2/3','2/3 ~ 1'][i];}});
+    b.setFill(2,'fa');
+    b.cells[0].append(H('<span class="mark" data-r="0"></span>'));
+    b.cells[1].append(H('<span class="mark" data-r="1"></span>'));
+    b.cells[2].append(H('<span class="mark" data-r="2"></span>'));
+    $('[data-r="0"]',b.bar).innerHTML='<span style="font-size:1.1rem">6 km 구간</span>';
+    sc.append(b);
+    const tot=H('<div class="row center" style="margin-top:16px"><span class="tag t">1시간 동안 <b class="q">?</b> km</span></div>');
+    sc.append(tot);
+    sc.append(H('<div class="note" style="margin-top:22px">카드</div>'));
+    const cr=h('div','row');
+    const knife=h('div','token a','반으로<br>나누기');
+    const half=frameToken(b.bar,1,3,'3 km','');
+    half.classList.add('locked');
+    half.__onBlocked=function(){ctx.say('tip','먼저 「반으로 나누기」 카드로 6 km 구간을 반으로 나누어야 3 km가 생겨요.');};
+    const hh=h('div','ftok-holder'); hh.append(half);
+    cr.append(knife); sc.append(cr,H('<div class="note" style="margin-top:16px">'+
+      '아래 카드는 '+F(1,3,null,'sm')+'시간 구간과 폭이 같습니다</div>'),hh);
+    ctx.board.append(sc);
+
+    let cut=false, filled=false;
+    source(knife,'knife'); source(half,'half');
+    [0,1].forEach(function(i){
+      zone(b.cells[i],{accept:function(p){return p==='knife'&&!cut;},drop:function(){
+        cut=true; knife.classList.add('used'); half.classList.remove('locked');
+        $('[data-r="0"]',b.bar).innerHTML='<span style="font-size:1.05rem">3 km</span>';
+        $('[data-r="1"]',b.bar).innerHTML='<span style="font-size:1.05rem">3 km</span>';
+        ctx.say('ok',F(2,3,null,'sm')+'시간을 반으로 나누면 '+F(1,3,null,'sm')+'시간이고, 그 동안 <b>3 km</b>를 갑니다. 이제 「3 km」 카드로 빈 구간을 채우세요.');
+      }});
+    });
+    zone(b.cells[2],{accept:function(p){return p==='half'&&cut&&!filled;},drop:function(){
+      if(!cut||filled)return;
+      filled=true; half.classList.add('used');
+      b.cells[2].classList.add('f');
+      $('[data-r="2"]',b.bar).innerHTML='<span style="font-size:1.05rem">3 km</span>';
+      $('.q',tot).textContent='9';
+      ctx.say('ok','1시간은 '+F(1,3,null,'sm')+'시간의 3배예요. 3 + 3 + 3 = <b>9 km</b>입니다.');
+      ctx.panel.append(H('<div class="rule"><h4>눈여겨볼 점</h4><p>6을 '+F(2,3,null,'sm')+'로 나누었더니 몫이 <b>9</b>로, 처음 수 6보다 <b>커졌습니다.</b> 1보다 작은 수로 나누면 몫이 커져요.</p></div>'));
+      ctx.done();
+    }});
+    ctx.say('tip','주황색 「반으로 나누기」 카드를 색칠된 구간으로 끌어다 놓으세요.');
+  }},
+ /* ── STEP 2 ─────────────────────────────────────────── */
+ {label:'계산 순서 만들기',
+  task:'6에서 9가 되는 <em>두 단계</em>를 카드로 만들어 보세요. 순서가 중요합니다.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>6 ÷ '+F(2,3,null,'sm')+' 의 계산 순서</h4>'));
+    const line=h('div','row center');
+    const s1=h('div','slot','1단계'), s2=h('div','slot','2단계');
+    line.append(H('<span class="fr lg">6</span>'),H('<span class="op">→</span>'),s1,H('<span class="op">→</span>'),s2,H('<span class="op">→</span>'),H('<span class="fr lg">9</span>'));
+    sc.append(line);
+    sc.append(H('<div class="note" style="margin-top:22px">카드 (필요 없는 카드도 있어요)</div>'));
+    const cr=h('div','row');
+    [['÷ 2',1],['× 3',2],['÷ 3',0],['× 2',0]].forEach(function(a){
+      const t=h('div','token'+(a[1]?' a':''),a[0]); t.dataset.k=a[1]; source(t,a[0]); cr.append(t);
+    });
+    sc.append(cr); ctx.board.append(sc);
+
+    let step=1;
+    function mk(slot,want,order){
+      zone(slot,{drop:function(pl,node){
+        if(step!==order){ctx.say('tip',order===1?'1단계 칸을 먼저 채워 주세요.':'2단계는 1단계를 채운 뒤에 놓을 수 있어요.');return;}
+        if(pl!==want){
+          if(pl==='÷ 3')ctx.say('no','먼저 나누는 수는 '+F(2,3,null,'sm')+' 의 <b>분자 2</b>예요. 2/3시간을 반으로 나누어 1/3시간을 만든 것과 같습니다.');
+          else if(pl==='× 2')ctx.say('no','곱하는 수는 <b>분모 3</b>이에요. 1/3시간을 3배 해서 1시간을 만듭니다.');
+          else ctx.say('no','순서를 다시 생각해 보세요. 먼저 나누고, 그다음 곱합니다.');
+          return;
+        }
+        slot.textContent=pl; slot.classList.add('has'); node.classList.add('used'); step++;
+        if(step===3){ctx.say('ok','6 ÷ 2 = 3 (1/3시간의 거리) → 3 × 3 = 9 (1시간의 거리)');p.hidden=false;}
+      }});
+    }
+    mk(s1,'÷ 2',1); mk(s2,'× 3',2);
+
+    const p=h('div','col'); p.hidden=true;
+    p.append(H(eq(N(6),DIV,F(2,3),EQ,'<span class="op">(</span>',N(6),DIV,N('_0'),'<span class="op">)</span>',MUL,N('_1'),EQ,N('_2'),MUL,N('_3'),EQ,N('_4'))));
+    const chk=ctx.check(p,{answers:{0:'2',1:'3',2:'3',3:'3',4:'9'},
+      hints:{0:{'3':'나누는 수는 분자 2입니다.'},1:{'2':'곱하는 수는 분모 3입니다.'}},
+      tip:'(6 ÷ 2) × 3 = 3 × 3 = 9',
+      okMsg:'(자연수)÷(분수)는 <b>자연수를 분자로 나누고 분모를 곱합니다.</b>',
+      onSolved:function(){ctx.done();}});
+    const row=h('div','row'); row.append(chk); p.append(row);
+    ctx.panel.append(p);
+    ctx.say('tip','카드를 1단계 칸으로 끌어다 놓으세요.');
+  }},
+ /* ── STEP 3 ─────────────────────────────────────────── */
+ {label:'다른 방법',
+  task:'원판 6개를 <em>모두 클릭</em>해서 3조각씩 자르고, 6을 분수로 바꾸어 계산해 보세요.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>자연수 6을 '+F('?',3,null,'sm')+' 으로 바꾸기</h4>'));
+    const dr=h('div','discs'); const ds=[];
+    for(let i=0;i<6;i++){const d=disc(3);dr.append(d);ds.push(d);}
+    sc.append(dr);
+    const info=H('<div class="row center" style="margin-top:26px"><span class="tag t">잘린 조각 <b class="c">0</b>개</span><span class="tag a">6 = <b class="f">?</b></span></div>');
+    sc.append(info); ctx.board.append(sc);
+
+    let n=0;
+    ds.forEach(function(d){
+      d.addEventListener('click',function(){
+        if(d.classList.contains('done'))return;
+        d.classList.add('done'); d.draw(true); n+=3;
+        $('.c',info).textContent=n;
+        if(n===18){
+          $('.f',info).innerHTML=F(18,3,null,'sm');
+          ctx.say('ok','1을 3조각씩 자르면 6은 '+F(1,3,null,'sm')+' 이 <b>18개</b>, 즉 '+F(18,3,null,'sm')+' 입니다.');
+          p.hidden=false;
+        }
+      });
+    });
+    const p=h('div','col'); p.hidden=true;
+    p.append(H('<div class="note">이제 분모가 같아졌으니 1차시 방법을 쓸 수 있어요.</div>'));
+    p.append(H(eq(N(6),DIV,F(2,3),EQ,F('_0',3),DIV,F(2,3),EQ,N('_1'),DIV,N('_2'),EQ,N('_3'))));
+    const chk=ctx.check(p,{answers:{0:'18',1:'18',2:'2',3:'9'},
+      hints:{0:{'6':'6 = 18/3 이에요. 조각이 18개입니다.'},3:{'36':'18 ÷ 2 를 계산해 보세요.'}},
+      tip:'18/3 ÷ 2/3 → 18 ÷ 2 = 9',
+      okMsg:'두 가지 방법 모두 <b>9</b>가 나왔어요.',
+      onSolved:function(){ctx.done();}});
+    const row=h('div','row'); row.append(chk); p.append(row);
+    ctx.panel.append(p);
+    ctx.say('tip','원판을 하나씩 클릭해 3조각으로 잘라 보세요.');
+  }},
+ /* ── STEP 4 ─────────────────────────────────────────── */
+ {label:'실험과 연습',
+  task:'먼저 예상해 보고, 조절판을 끝까지 움직여 나누는 수가 작아질 때 몫이 어떻게 되는지 확인하세요.',
+  build:function(ctx){
+    let okP=false, okS=false, okD=false;
+    function tryDone(){if(okP&&okS&&okD)ctx.done();}
+
+    const mq=ctx.mcq({q:'6 ÷ '+F(1,2,null,'sm')+' 의 몫은 6보다 클까요, 작을까요?',
+      options:[
+        {label:'6보다 크다',correct:true,feedback:'맞았어요. 1보다 작은 수로 나누면 몫이 커집니다.'},
+        {label:'6보다 작다',feedback:'6 안에 '+F(1,2,null,'sm')+' 이 몇 개 들어가는지 생각해 보세요. 12개나 들어갑니다.'},
+        {label:'6과 같다',feedback:'6으로 나누는 수가 1일 때만 몫이 6이에요.'}
+      ],onSolved:function(){okP=true;sc.hidden=false;tryDone();}});
+    ctx.board.append(mq);
+
+    const sc=h('div','scene'); sc.hidden=true;
+    sc.append(H('<h4>나누는 수를 작게 하면 몫은?</h4>'));
+    const list=[[3,1],[2,1],[1,1],[3,4],[2,3],[1,2],[1,3]];
+    const head=H('<div class="row center" style="font-size:1.3rem"><span class="eq">'+N(6)+DIV+'<span class="dv"></span>'+EQ+'<b class="qv"></b></span></div>');
+    sc.append(head);
+    const gauge=H('<div style="margin-top:20px;height:56px;border:2.5px solid var(--line-strong);border-radius:12px;overflow:hidden;background:var(--surface)"><div class="gv" style="height:100%;width:0;background:var(--accent);transition:width .25s"></div></div>');
+    sc.append(gauge);
+    sc.append(H('<div class="note" style="margin-top:8px">막대 길이 = 몫의 크기 (최대 18)</div>'));
+    const sl=H('<input type="range" min="0" max="6" value="0" style="width:100%;height:44px;margin-top:18px">');
+    sc.append(sl);
+    ctx.board.append(sc);
+    function upd(){
+      const i=+sl.value, d=list[i], q=6*d[1]/d[0];
+      $('.dv',head).innerHTML=d[1]===1?N(d[0]):F(d[0],d[1]);
+      $('.qv',head).textContent=q;
+      $('.gv',gauge).style.width=(100*q/18)+'%';
+      if(i===6&&!okS){okS=true;ctx.say('ok','나누는 수가 작아질수록 몫은 <b>커집니다.</b> 6 ÷ '+F(1,3,null,'sm')+' = 18 이에요.');tryDone();}
+    }
+    sl.addEventListener('input',upd); upd();
+
+    ctx.panel.append(drill([
+      {html:eq(N(9),DIV,F(1,5),EQ,N('_0')),answers:{0:'45'},tip:'(9 ÷ 1) × 5'},
+      {html:eq(N(3),DIV,F(3,7),EQ,N('_0')),answers:{0:'7'},tip:'(3 ÷ 3) × 7'},
+      {html:eq(N(14),DIV,F(7,10),EQ,N('_0')),answers:{0:'20'},tip:'(14 ÷ 7) × 10'},
+      {html:eq(N(24),DIV,F(8,11),EQ,N('_0')),answers:{0:'33'},tip:'(24 ÷ 8) × 11'}
+    ],{done:function(){okD=true;tryDone();},say:ctx.say},'자연수를 분자로 나누고 분모를 곱하세요.'));
+  }}
+ ]});
+
+/* ══════════════════════════════════════════════════════════
+   5차시 · (분수)÷(분수)를 분수의 곱셈으로
+   ══════════════════════════════════════════════════════════ */
+LESSONS.push({
+ no:5, title:'분수의 곱셈으로 나타내기',
+ sub:'나누는 분수의 분자와 분모를 바꾸어 곱하기',
+ goal:'나눗셈을 곱셈으로 바꾸어 계산합니다.',
+ expr:eq(F(4,5),DIV,F(2,3),EQ,F(4,5),MUL,F(3,2)),
+ steps:[
+ /* ── STEP 1 ─────────────────────────────────────────── */
+ {label:'수조 가득 채우기',
+  task:'바닷물 <em>4/5 L</em>를 넣으니 수조의 <em>2/3</em>가 찼습니다. ①「반으로 나누기」를 물에 놓고, ② 만들어진 칸을 빈 층에 놓아 수조를 가득 채우세요.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>수조를 가득 채우는 바닷물의 양</h4>'));
+    const row=h('div','row center'); row.style.alignItems='flex-end';
+    const tank=h('div');
+    tank.style.cssText='width:230px;height:280px;border:3px solid var(--line-strong);border-radius:0 0 16px 16px;display:flex;flex-direction:column-reverse;overflow:hidden;background:var(--surface)';
+    const rows=[];
+    for(let i=0;i<3;i++){
+      const r=h('div');
+      r.style.cssText='flex:1;border-top:2px dashed var(--line);display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:1.05rem;color:var(--ink)';
+      rows.push(r); tank.append(r);
+    }
+    rows[0].style.background='var(--teal-soft)'; rows[1].style.background='var(--teal-soft)';
+    const lbl=h('div','col');
+    lbl.append(H('<div class="tag t" style="font-size:1rem;padding:10px 14px">지금 들어 있는 물 '+F(4,5,null,'sm')+' L</div>'));
+    lbl.append(H('<div class="tag a" style="font-size:1rem;padding:10px 14px">수조의 '+F(2,3,null,'sm')+' 만큼</div>'));
+    lbl.append(H('<div class="note">가득 채우면 <b class="fullv">?</b> L</div>'));
+    row.append(tank,lbl); sc.append(row);
+    sc.append(H('<div class="note" style="margin-top:22px">카드</div>'));
+    const cr=h('div','row');
+    const knife=h('div','token a','반으로<br>나누기');
+    const piece=h('div','token locked',F(2,5,null,'sm')+' L');
+    piece.style.cssText+='width:230px;height:86px';
+    piece.__onBlocked=function(){ctx.say('tip','먼저 물을 두 층으로 나누어 한 층의 양을 알아야 해요.');};
+    cr.append(knife,piece); sc.append(cr);
+    ctx.board.append(sc);
+
+    let cut=false;
+    source(knife,'knife'); source(piece,'piece');
+    [0,1].forEach(function(i){
+      zone(rows[i],{accept:function(p){return p==='knife'&&!cut;},drop:function(){
+        cut=true; knife.classList.add('used'); piece.classList.remove('locked');
+        rows[0].innerHTML=F(2,5,null,'sm')+' L'; rows[1].innerHTML=F(2,5,null,'sm')+' L';
+        ctx.say('ok',F(4,5,null,'sm')+' L 를 두 층으로 나누면 한 층은 '+F(2,5,null,'sm')+' L 예요. 이제 빈 층을 채우세요.');
+      }});
+    });
+    zone(rows[2],{accept:function(p){return p==='piece'&&cut;},drop:function(){
+      if(!cut)return;
+      piece.classList.add('used');
+      rows[2].style.background='var(--accent-soft)'; rows[2].innerHTML=F(2,5,null,'sm')+' L';
+      $('.fullv',lbl).innerHTML=F(6,5,null,'sm')+' = '+F(1,5,1,'sm');
+      ctx.say('ok','한 층이 '+F(2,5,null,'sm')+' L 이고 3층이니 '+F(2,5,null,'sm')+' × 3 = '+F(6,5,null,'sm')+' = '+F(1,5,1,'sm')+' L 입니다.');
+      ctx.panel.append(H('<div class="rule"><h4>지금 한 계산</h4><p>'+
+        F(4,5,null,'sm')+' 을 <b>2로 나누고</b> <b>3을 곱했습니다.</b> 이것이 '+F(4,5,null,'sm')+' ÷ '+F(2,3,null,'sm')+' 이에요.</p></div>'));
+      ctx.done();
+    }});
+    ctx.say('tip','「반으로 나누기」 카드를 물이 있는 층으로 끌어다 놓으세요.');
+  }},
+ /* ── STEP 2 ─────────────────────────────────────────── */
+ {label:'한 번에 하기',
+  task:'두 단계(÷2, ×3)를 <em>한 장의 카드</em>로 바꿔 보세요. 어떤 카드를 놓으면 결과가 같을까요?',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>두 단계를 한 단계로</h4>'));
+    sc.append(H('<div class="row center" style="margin-bottom:8px"><span class="eq">'+F(4,5)+
+      '<span class="op">→ ÷2 →</span>'+F(2,5)+'<span class="op">→ ×3 →</span>'+F(6,5)+'</span></div>'));
+    sc.append(H('<hr class="hr">'));
+    const line=h('div','row center');
+    const slot=h('div','slot','카드');
+    line.append(H('<span class="fr lg">'+F(4,5)+'</span>'),H('<span class="op">→</span>'),slot,H('<span class="op">→</span>'),H('<span class="fr lg">'+F(6,5)+'</span>'));
+    sc.append(line);
+    sc.append(H('<div class="note" style="margin-top:22px">카드</div>'));
+    const cr=h('div','row');
+    [[F(3,2,null,'sm'),'× ',true],[F(2,3,null,'sm'),'× ',false],[F(3,2,null,'sm'),'÷ ',false]].forEach(function(a,i){
+      const t=h('div','token'+(a[2]?' a':''),a[1]+a[0]); t.dataset.i=i; source(t,i); cr.append(t);
+    });
+    sc.append(cr); ctx.board.append(sc);
+
+    zone(slot,{drop:function(p,node){
+      if(p===1){ctx.say('no',F(2,3,null,'sm')+' 을 그대로 곱하면 '+F(8,15,null,'sm')+' 이 되어 <b>작아집니다.</b> 나누는 분수는 <b>뒤집어야</b> 해요.');return;}
+      if(p===2){ctx.say('no','÷ 기호는 그대로 두면 계산이 진행되지 않아요. 나눗셈을 <b>곱셈으로</b> 바꿉니다.');return;}
+      slot.innerHTML='<span class="fr sm">× '+F(3,2,null,'sm')+'</span>'; slot.classList.add('has'); node.classList.add('used');
+      ctx.say('ok','÷ 2 하고 × 3 하는 것은 '+F(3,2,null,'sm')+' 을 <b>한 번 곱하는 것</b>과 같습니다.');
+      p2.hidden=false;
+    }});
+    const p2=h('div','col'); p2.hidden=true;
+    p2.append(H(eq(OP('÷'),F(2,3),EQ,OP('×'),F('_0','_1'))));
+    const chk=ctx.check(p2,{answers:{0:'3',1:'2'},
+      hints:{0:{'2':'분자와 분모의 <b>자리를 바꿉니다.</b> 분자 자리에는 3이 와요.'}},
+      tip:'÷ 2/3 = × 3/2 — 분자와 분모를 바꿉니다.',
+      okMsg:'나누는 분수의 <b>분자와 분모를 바꾸어 곱합니다.</b>',
+      onSolved:function(){ctx.done();}});
+    const row=h('div','row'); row.append(chk); p2.append(row);
+    ctx.panel.append(p2);
+    ctx.say('tip','세 장 중 결과가 같아지는 카드를 골라 끌어다 놓으세요.');
+  }},
+ /* ── STEP 3 ─────────────────────────────────────────── */
+ {label:'카드 뒤집기',
+  task:'<em>나누는 분수</em>만 클릭해서 뒤집고, 「×」 카드를 ÷ 자리에 놓은 뒤 식을 완성하세요.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>어느 분수를 뒤집을까요</h4>'));
+    const line=h('div','row center'); line.style.gap='20px';
+    const c1=h('div','token',F(4,5,null,'sm')); c1.style.cssText+='width:110px;height:110px;font-size:1.1rem';
+    const opslot=h('div','slot','÷'); opslot.style.cssText+='width:88px;font-size:1.9rem;color:var(--ink)';
+    opslot.innerHTML='<span class="op" style="font-size:2rem">÷</span>';
+    const c2=h('div','token a',F(2,3,null,'sm')); c2.style.cssText+='width:110px;height:110px;font-size:1.1rem;cursor:pointer';
+    line.append(c1,opslot,c2);
+    sc.append(line);
+    sc.append(H('<div class="note center row" style="margin-top:10px;justify-content:center">앞의 분수 · 나누는 분수 (클릭)</div>'));
+    sc.append(H('<div class="note" style="margin-top:22px">카드</div>'));
+    const cr=h('div','row'); const mt=h('div','token a','×'); mt.style.fontSize='1.6rem'; cr.append(mt);
+    sc.append(cr); ctx.board.append(sc);
+
+    let flipped=false, swapped=false;
+    c1.addEventListener('click',function(){
+      c1.classList.add('no'); c1.style.animation='shake .32s';
+      setTimeout(function(){c1.style.animation='';c1.classList.remove('no');},340);
+      ctx.say('no','뒤집는 것은 <b>나누는 분수</b>(뒤에 있는 주황색 분수)뿐이에요. 앞의 분수는 그대로 둡니다.');
+    });
+    c2.addEventListener('click',function(){
+      if(flipped)return;
+      flipped=true; c2.style.transition='transform .3s'; c2.style.transform='rotateX(180deg)';
+      setTimeout(function(){c2.innerHTML=F(3,2,null,'sm');c2.style.transform='';},300);
+      ctx.say('ok','분자와 분모가 바뀌었어요. 이제 ÷ 자리에 「×」 카드를 놓으세요.');
+    });
+    source(mt,'mul');
+    zone(opslot,{accept:function(){return flipped&&!swapped;},drop:function(pl,node){
+      swapped=true; node.classList.add('used');
+      opslot.innerHTML='<span class="op" style="font-size:2rem;color:var(--accent)">×</span>'; opslot.classList.add('has');
+      ctx.say('ok','나눗셈이 곱셈으로 바뀌었습니다. 아래 식을 완성하세요.');
+      p.hidden=false;
+    }});
+
+    const p=h('div','col'); p.hidden=true;
+    p.append(H(eq(F(4,5),DIV,F(2,3),EQ,F(4,5),MUL,F('_0','_1'),EQ,F('_2','_3'),EQ,F('_4','_5'),EQ,F('_7','_8','_6'))));
+    p.append(H('<div class="note">셋째 칸은 곱한 결과, 넷째 칸은 약분한 기약분수입니다.</div>'));
+    const chk=ctx.check(p,{answers:{0:'3',1:'2',2:'12',3:'10',4:'6',5:'5',6:'1',7:'1',8:'5'},
+      hints:{0:{'2':'나누는 분수를 뒤집으면 분자는 3이에요.'},
+             2:{'6':'먼저 곱한 결과를 쓰세요. 4×3 = 12'},
+             4:{'12':'12/10을 2로 약분하면 6/5입니다.'}},
+      tip:'4/5 × 3/2 = 12/10 = 6/5 = 1과 1/5',
+      okMsg:'1단계에서 수조로 구한 '+F(1,5,1,'sm')+' L 와 같은 답이에요.',
+      onSolved:function(){ctx.done();}});
+    const row=h('div','row'); row.append(chk); p.append(row);
+    ctx.panel.append(p);
+    ctx.say('tip','두 분수 카드 중 어느 것을 뒤집어야 할지 생각하고 클릭하세요.');
+  }},
+ /* ── STEP 4 ─────────────────────────────────────────── */
+ {label:'연습과 오답 찾기',
+  task:'곱셈으로 바꾸어 기약분수로 답하세요. 잘못 계산한 친구도 찾아봅니다.',
+  build:function(ctx){
+    let okD=false, okM=false; function tryDone(){if(okD&&okM)ctx.done();}
+    ctx.board.append(H('<div class="rule"><h4>5차시 정리</h4><p>'+
+      F('■','▲')+' ÷ '+F('●','♥')+' = '+F('■','▲')+' × '+F('♥','●')+
+      ' — 나눗셈을 곱셈으로 바꾸고, <b>나누는 분수</b>의 분자와 분모를 바꿉니다.</p></div>'));
+    ctx.board.append(ctx.mcq({q:'다음 중 <b>옳게</b> 계산한 사람은 누구인가요?',
+      options:[
+        {label:'민하 — '+F(2,3,null,'sm')+' ÷ '+F(4,7,null,'sm')+' = '+F(3,2,null,'sm')+' × '+F(7,4,null,'sm'),
+         feedback:'앞의 분수 2/3까지 뒤집었어요. 앞의 분수는 그대로 둡니다.'},
+        {label:'규민 — '+F(9,10,null,'sm')+' ÷ '+F(3,7,null,'sm')+' = '+F(9,10,null,'sm')+' × '+F(7,3,null,'sm'),
+         correct:true,feedback:'맞았어요. 나누는 분수만 뒤집었습니다. 답은 '+F(21,10,null,'sm')+' 입니다.'},
+        {label:'소민 — '+F(2,3,null,'sm')+' ÷ '+F(4,7,null,'sm')+' = '+F(2,3,null,'sm')+' × '+F(4,7,null,'sm'),
+         feedback:'÷를 ×로 바꾸기만 하고 뒤집지 않았어요. 뒤집기가 빠졌습니다.'}
+      ],onSolved:function(){okM=true;tryDone();}}));
+    ctx.panel.append(drill([
+      {html:eq(F(3,7),DIV,F(4,11),EQ,F(3,7),MUL,F('_0','_1'),EQ,F('_2','_3')),
+       answers:{0:'11',1:'4',2:'33',3:'28'},tip:'3/7 × 11/4 = 33/28'},
+      {html:eq(F(7,10),DIV,F(2,3),EQ,F(7,10),MUL,F('_0','_1'),EQ,F('_2','_3')),
+       answers:{0:'3',1:'2',2:'21',3:'20'},tip:'7/10 × 3/2 = 21/20'},
+      {html:eq(F(8,21),DIV,F(2,7),EQ,F(8,21),MUL,F('_0','_1'),EQ,F('_2','_3')),
+       answers:{0:'7',1:'2',2:['4','56'],3:['3','42']},tip:'8/21 × 7/2 = 56/42 = 4/3'},
+      {html:eq(F(2,9),DIV,F(4,15),EQ,F(2,9),MUL,F('_0','_1'),EQ,F('_2','_3')),
+       answers:{0:'15',1:'4',2:['5','30'],3:['6','36']},tip:'2/9 × 15/4 = 30/36 = 5/6'}
+    ],{done:function(){okD=true;tryDone();},say:ctx.say},'가운데 칸에는 뒤집은 분수를, 마지막 칸에는 계산한 값을 쓰세요.'));
+  }}
+ ]});
+
+/* ══════════════════════════════════════════════════════════
+   6차시 · (대분수)÷(분수)
+   ══════════════════════════════════════════════════════════ */
+LESSONS.push({
+ no:6, title:'(대분수) ÷ (분수)',
+ sub:'대분수를 가분수로 바꾼 다음 계산하기',
+ goal:'대분수를 가분수로 고쳐 두 가지 방법으로 계산합니다.',
+ expr:eq(F(1,2,4),DIV,F(3,4),EQ,N(6)),
+ steps:[
+ /* ── STEP 1 ─────────────────────────────────────────── */
+ {label:'가분수로 바꾸기',
+  task:'운석 <em>4와 1/2 g</em>입니다. 온전한 원판 4개를 <em>클릭해서 반으로</em> 잘라, 모두 같은 크기의 조각으로 만드세요.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>운석 '+F(1,2,4,'sm')+' g 을 같은 조각으로</h4>'));
+    const dr=h('div','discs'); const ds=[];
+    for(let i=0;i<4;i++){const d=disc(2);dr.append(d);ds.push(d);}
+    const hd=disc(2,{done:true,half:true,cut:true}); dr.append(hd);
+    sc.append(dr);
+    const info=H('<div class="row center" style="margin-top:26px"><span class="tag t">'+F(1,2,null,'sm')+' 조각 <b class="c">1</b>개</span><span class="tag a">'+F(1,2,4,'sm')+' = <b class="f">?</b></span></div>');
+    sc.append(info);
+    const bad=h('button','btn ghost','대분수 그대로 나누기');
+    bad.addEventListener('click',function(){
+      ctx.say('no','<b>대분수는 4와 '+F(1,2,null,'sm')+' 을 더한 수</b>예요. 자연수 부분과 분수 부분을 따로 나누면 답이 달라집니다. 먼저 가분수로 바꿔야 해요.');
+    });
+    sc.append(H('<div style="height:20px"></div>'),bad);
+    ctx.board.append(sc);
+
+    let n=1;
+    ds.forEach(function(d){
+      d.addEventListener('click',function(){
+        if(d.classList.contains('done'))return;
+        d.classList.add('done'); d.draw(true); n+=2; $('.c',info).textContent=n;
+        if(n===9){
+          $('.f',info).innerHTML=F(9,2,null,'sm');
+          ctx.say('ok','1을 반으로 자르면 '+F(1,2,null,'sm')+' 이 2개씩 생겨요. 모두 <b>9개</b>이므로 '+F(1,2,4,'sm')+' = '+F(9,2,null,'sm')+' 입니다.');
+          p.hidden=false;
+        }
+      });
+    });
+    const p=h('div','col'); p.hidden=true;
+    p.append(H(eq(F(1,2,4),EQ,F('_0',2))));
+    const chk=ctx.check(p,{answers:{0:'9'},
+      hints:{0:{'41':'4 × 2 + 1 = 9 예요. 자연수와 분자를 붙여 쓰지 않습니다.','5':'조각을 다시 세어 보세요. 9개입니다.'}},
+      tip:'4 × 2 + 1 = 9 → 9/2',
+      okMsg:'대분수는 <b>먼저 가분수로</b> 바꿉니다.',
+      onSolved:function(){ctx.done();}});
+    const row=h('div','row'); row.append(chk); p.append(row);
+    ctx.panel.append(p);
+    ctx.say('tip','파란 원판 4개를 하나씩 클릭해 반으로 잘라 보세요.');
+  }},
+ /* ── STEP 2 ─────────────────────────────────────────── */
+ {label:'두 가지 방법',
+  task:'같은 문제를 <em>통분하는 방법</em>과 <em>곱셈으로 바꾸는 방법</em>으로 각각 계산하세요. 둘 다 채워야 다음으로 넘어갑니다.',
+  build:function(ctx){
+    const two=h('div','two');
+    const w1=h('div','way'); w1.append(H('<h5>방법 1 — 통분하여 분자끼리</h5>'));
+    w1.append(H(eq(F(1,2,4),DIV,F(3,4),EQ,F('_0',2),DIV,F(3,4))));
+    w1.append(H(eq(EQ,F('_1',4),DIV,F('_2',4),EQ,N('_3'),DIV,N('_4'),EQ,N('_5'))));
+    const w2=h('div','way'); w2.append(H('<h5>방법 2 — 분수의 곱셈으로</h5>'));
+    w2.append(H(eq(F(1,2,4),DIV,F(3,4),EQ,F('_6',2),MUL,F('_7','_8'))));
+    w2.append(H(eq(EQ,F('_9','_10'),EQ,N('_11'))));
+    two.append(w1,w2); ctx.board.append(two);
+
+    let a=false,b=false; function tryDone(){if(a&&b)ctx.done();}
+    const r1=h('div','row'); r1.append(ctx.check(w1,{answers:{0:'9',1:'18',2:'3',3:'18',4:'3',5:'6'},
+      hints:{1:{'9':'분모를 4로 통분하면 9/2 = 18/4 입니다.'},4:{'4':'통분한 뒤에는 분자끼리만 나눕니다. 분자는 3이에요.'}},
+      tip:'9/2 = 18/4 → 18/4 ÷ 3/4 → 18 ÷ 3 = 6',
+      okMsg:'방법 1 완성. 몫은 6입니다.',onSolved:function(){a=true;w1.classList.add('solved');tryDone();}}));
+    w1.append(r1);
+    const r2=h('div','row'); r2.append(ctx.check(w2,{answers:{6:'9',7:'4',8:'3',9:'36',10:'6',11:'6'},
+      hints:{7:{'3':'나누는 분수 3/4을 뒤집으면 분자는 4예요.'},9:{'12':'9 × 4 = 36 입니다.'}},
+      tip:'9/2 × 4/3 = 36/6 = 6',
+      okMsg:'방법 2 완성. 두 방법의 답이 같아요.',onSolved:function(){b=true;w2.classList.add('solved');tryDone();}}));
+    w2.append(r2);
+    ctx.say('tip','왼쪽부터 차례로 채우고 각 방법의 확인 버튼을 누르세요.');
+  }},
+ /* ── STEP 3 ─────────────────────────────────────────── */
+ {label:'접시로 확인',
+  task:'「3/4 g 담기」 카드를 접시로 끌어다 놓아, 운석 4와 1/2 g으로 접시 몇 개를 채울 수 있는지 확인하세요.',
+  build:function(ctx){
+    const sc=h('div','scene'); sc.append(H('<h4>페트리 접시에 '+F(3,4,null,'sm')+' g 씩 담기</h4>'));
+    const b=bar(18,{fill:18,top:'<span>운석 '+F(1,2,4,'sm')+' g = '+F(18,4,null,'sm')+' g</span><span class="note">한 칸 = '+F(1,4,null,'sm')+' g</span>'});
+    sc.append(b);
+    const info=H('<div class="row center" style="margin-top:16px"><span class="tag t">남은 칸 <b class="rest">18</b></span><span class="tag a">채운 접시 <b class="d">0</b>개</span></div>');
+    sc.append(info);
+    sc.append(H('<div class="note" style="margin-top:18px">접시 — 하나에 '+F(3,4,null,'sm')+' g (칸 3개)</div>'));
+    const vs=h('div','vessels'); const ds=[];
+    for(let i=0;i<7;i++){const v=vessel(3,(i+1));vs.append(v);ds.push(v);}
+    sc.append(vs);
+    sc.append(H('<div class="note" style="margin-top:22px">카드</div>'));
+    const cr=h('div','row'); const tok=h('div','token a',F(3,4,null,'sm')+' g<br>담기'); cr.append(tok); sc.append(cr);
+    ctx.board.append(sc);
+
+    let rest=18, filled=0;
+    source(tok,'p');
+    ds.forEach(function(v){
+      zone(v,{accept:function(){return v.n===0;},drop:function(){
+        if(rest<3){ctx.say('no','남은 운석이 '+rest+'칸뿐이라 '+F(3,4,null,'sm')+' g 을 더 담을 수 없어요. 접시는 <b>6개</b>까지입니다.');return;}
+        rest-=3; filled++; v.set(3);
+        b.setFill(rest,'f');
+        $('.rest',info).textContent=rest; $('.d',info).textContent=filled;
+        if(rest===0){
+          ctx.say('ok','접시 <b>6개</b>를 정확히 채웠어요. '+F(1,2,4,'sm')+' ÷ '+F(3,4,null,'sm')+' = <b>6</b> 입니다.');
+          p.hidden=false;
+        }
+      }});
+    });
+    const p=h('div','col'); p.hidden=true;
+    p.append(H('<div class="note">이번에는 (대분수)÷(대분수)입니다. 두 대분수를 모두 가분수로 바꾸세요.</div>'));
+    p.append(H(eq(F(3,4,2),DIV,F(1,5,1),EQ,F('_0',4),DIV,F('_1',5))));
+    p.append(H(eq(EQ,F('_2',20),DIV,F('_3',20),EQ,N('_4'),DIV,N('_5'),EQ,F('_6','_7'),EQ,F('_9','_10','_8'))));
+    const chk=ctx.check(p,{answers:{0:'11',1:'6',2:'55',3:'24',4:'55',5:'24',6:'55',7:'24',8:'2',9:'7',10:'24'},
+      hints:{0:{'23':'2 × 4 + 3 = 11 이에요.'},1:{'11':'1 × 5 + 1 = 6 입니다.'},
+             8:{'0':'55 ÷ 24 = 2 …남는 7 이므로 자연수 부분은 2예요.'}},
+      tip:'11/4 ÷ 6/5 → 55/20 ÷ 24/20 → 55 ÷ 24 = 55/24 = 2와 7/24',
+      onSolved:function(){ctx.done();}});
+    const row=h('div','row'); row.append(chk); p.append(row);
+    ctx.panel.append(p);
+    ctx.say('tip','주황색 카드를 접시로 끌어다 놓으세요. 6개까지만 채울 수 있습니다.');
+  }},
+ /* ── STEP 4 ─────────────────────────────────────────── */
+ {label:'연습',
+  task:'대분수를 가분수로 바꾼 뒤 계산하세요. 마지막 문제는 실생활 문제입니다.',
+  build:function(ctx){
+    ctx.board.append(H('<div class="rule"><h4>6차시 정리</h4><p>대분수가 있으면 <b>반드시 먼저 가분수로</b> 바꿉니다. 그다음 통분하여 분자끼리 나누거나, 곱셈으로 바꾸어 계산합니다.</p></div>'));
+    ctx.panel.append(drill([
+      {html:eq(F(2,9,1),DIV,F(5,6),EQ,F('_0',9),DIV,F(5,6),EQ,F('_1','_2')),
+       answers:{0:'11',1:'22',2:'15'},tip:'11/9 × 6/5 = 66/45 = 22/15'},
+      {html:eq(F(1,4,2),DIV,F(3,7),EQ,F('_0',4),DIV,F(3,7),EQ,F('_1','_2')),
+       answers:{0:'9',1:'21',2:'4'},tip:'9/4 × 7/3 = 63/12 = 21/4'},
+      {html:eq(F(1,3,2),DIV,F(3,5,1),EQ,F('_0',3),DIV,F('_1',5),EQ,F('_2','_3')),
+       answers:{0:'7',1:'8',2:'35',3:'24'},tip:'7/3 × 5/8 = 35/24'},
+      {html:'<div class="note">쌀 '+F(1,2,10,'sm')+' kg 을 한 통에 '+F(3,4,1,'sm')+' kg 씩 담아 기부합니다. 필요한 통은 몇 통인가요?</div>'+
+            eq(F(1,2,10),DIV,F(3,4,1),EQ,F('_0',2),DIV,F('_1',4),EQ,N('_2'))+'<div class="note">답 '+BL(3)+' 통</div>',
+       answers:{0:'21',1:'7',2:'6',3:'6'},tip:'21/2 × 4/7 = 84/14 = 6'}
+    ],ctx,'가분수로 바꾼 뒤 통분 또는 곱셈으로 계산하세요.'));
+  }}
+ ]});
+
+renderHome();
+</script>
+<script>
+/* ── 웹 앱 기능: 설치 버튼 + 오프라인 지원 ─────────────── */
+(function(){
+  var pending=null, btn=document.getElementById('btn-install');
+  window.addEventListener('beforeinstallprompt',function(e){
+    e.preventDefault(); pending=e; btn.hidden=false;
+  });
+  btn.addEventListener('click',function(){
+    if(!pending)return;
+    pending.prompt();
+    pending.userChoice.then(function(){pending=null;btn.hidden=true;});
+  });
+  window.addEventListener('appinstalled',function(){btn.hidden=true;});
+
+  var ok = location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1';
+  if('serviceWorker' in navigator && ok){
+    window.addEventListener('load',function(){
+      navigator.serviceWorker.register('sw.js').catch(function(){});
+    });
+  }
+})();
+</script>
+</body>
+</html>
