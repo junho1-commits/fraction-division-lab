@@ -668,7 +668,7 @@ function renderHome(){
   hero.append(H('<div class="wrap">'+
     '<div class="eyebrow">6학년 2학기 · 1단원 · 분수의 나눗셈</div>'+
     '<h1>손으로 옮겨 보고, 그림으로 확인하고,<br>그다음에 식을 씁니다.</h1>'+
-    '<p>남극 과학 기지의 관측 상황으로 여섯 차시를 공부합니다. 각 차시는 네 단계로 나뉘어 있고, 앞 단계를 해결해야 다음 단계가 열립니다.</p>'+
+    '<p>학교에서 만나는 상황으로 여섯 차시를 공부합니다. 각 차시는 네 단계로 나뉘어 있고, 앞 단계를 해결해야 다음 단계가 열립니다.</p>'+
     '<div class="flowline">'+STEPKIND.map(function(s,i){return '<div class="fl"><b>'+(i+1)+'</b>'+s[1]+'</div>';}).join('<span class="arw">→</span>')+'</div>'+
     (STORAGE_OK?'':
       '<div class="notice"><span class="k">안내</span><span>이 컴퓨터에서는 진행 기록이 <b>자동으로 저장되지 않습니다.</b> '+
@@ -769,17 +769,17 @@ LESSONS.push({
  expr:eq(F(7,10),DIV,F(1,10),EQ,'<span class="num">7</span>'),
  steps:[
  /* ── STEP 1 ─────────────────────────────────────────── */
- {label:'비료 덜어내기',
-  task:'식물 공장의 비료 <em>7/10 kg</em>을 화분 한 개에 <em>1/10 kg</em>씩 담습니다. 막대의 칸을 <em>끌어서</em> 화분에 옮겨 보세요.',
+ {label:'거름 덜어내기',
+  task:'학교 텃밭의 거름 <em>7/10 kg</em>을 모둠 화분 한 개에 <em>1/10 kg</em>씩 담습니다. 막대의 칸을 <em>끌어서</em> 화분에 옮겨 보세요.',
   build:function(ctx){
     const sc=h('div','scene');
-    sc.append(H('<h4>식물 공장 · 비료 나누어 담기</h4>'));
+    sc.append(H('<h4>학교 텃밭 · 거름 나누어 담기</h4>'));
     const b=bar(10,{fill:7,
-      top:'<span>비료 '+F(7,10,null,'sm')+' kg</span><span class="note">한 칸 = '+F(1,10,null,'sm')+' kg</span>'});
+      top:'<span>거름 '+F(7,10,null,'sm')+' kg</span><span class="note">한 칸 = '+F(1,10,null,'sm')+' kg</span>'});
     sc.append(b);
-    const info=H('<div class="row center" style="margin-top:16px"><span class="tag a">덜어낸 횟수 <b class="cnt">0</b>번</span><span class="tag t">남은 비료 <b class="rest">7</b>칸</span></div>');
+    const info=H('<div class="row center" style="margin-top:16px"><span class="tag a">덜어낸 횟수 <b class="cnt">0</b>번</span><span class="tag t">남은 거름 <b class="rest">7</b>칸</span></div>');
     sc.append(info);
-    sc.append(H('<div class="note" style="margin-top:18px">화분 — 한 개에 '+F(1,10,null,'sm')+' kg</div>'));
+    sc.append(H('<div class="note" style="margin-top:18px">모둠 화분 — 한 개에 '+F(1,10,null,'sm')+' kg</div>'));
     const vs=h('div','vessels'); const pots=[];
     for(let i=0;i<7;i++){const v=vessel(1,F(1,10,null,'sm')+' kg'); vs.append(v); pots.push(v);}
     sc.append(vs);
@@ -797,7 +797,7 @@ LESSONS.push({
         v.set(1); moved++;
         $('.cnt',info).textContent=moved; $('.rest',info).textContent=7-moved;
         if(moved===7){
-          ctx.say('ok','비료 '+F(7,10,null,'sm')+' kg에서 '+F(1,10,null,'sm')+' kg을 <b>7번</b> 덜어냈어요. 화분 <b>7개</b>에 담았습니다.');
+          ctx.say('ok','거름 '+F(7,10,null,'sm')+' kg에서 '+F(1,10,null,'sm')+' kg을 <b>7번</b> 덜어냈어요. 화분 <b>7개</b>에 담았습니다.');
           ctx.panel.innerHTML='';
           ctx.panel.append(H('<div class="rule"><h4>지금 한 일</h4><p>'+
             F(7,10,null,'sm')+' kg 안에 '+F(1,10,null,'sm')+' kg이 <b>몇 번</b> 들어가는지 세었습니다. 이것이 '+
@@ -849,10 +849,10 @@ LESSONS.push({
   }},
  /* ── STEP 3 ─────────────────────────────────────────── */
  {label:'묶어서 식 쓰기',
-  task:'<em>4/9 ÷ 2/9</em> 입니다. 오른쪽 <em>2/9 묶음틀</em>을 막대 위로 끌어다 놓아 몇 묶음이 되는지 알아보세요.',
+  task:'<em>4/9 ÷ 2/9</em> 입니다. 막대 아래의 <em>2/9 묶음틀</em>을 막대 위로 끌어다 놓아 몇 묶음이 되는지 알아보세요.',
   build:function(ctx){
-    const sc=h('div','scene'); sc.append(H('<h4>호두파이 '+F(4,9,null,'sm')+' 판을 '+F(2,9,null,'sm')+' 판씩 묶기</h4>'));
-    const b=bar(9,{fill:4,top:'<span>호두파이 '+F(4,9,null,'sm')+' 판</span><span class="note">한 칸 = '+F(1,9,null,'sm')+' 판</span>'});
+    const sc=h('div','scene'); sc.append(H('<h4>텃밭 채소 피자 '+F(4,9,null,'sm')+' 판을 '+F(2,9,null,'sm')+' 판씩 묶기</h4>'));
+    const b=bar(9,{fill:4,top:'<span>피자 '+F(4,9,null,'sm')+' 판</span><span class="note">한 칸 = '+F(1,9,null,'sm')+' 판</span>'});
     b.bar.style.position='relative';
     const holder=h('div','ftok-holder');
     const tok=frameToken(b.bar,2,9,F(2,9,null,'sm')+' 틀');
@@ -948,10 +948,10 @@ LESSONS.push({
  steps:[
  /* ── STEP 1 ─────────────────────────────────────────── */
  {label:'컵에 옮겨 담기',
-  task:'바닷물로 만든 식수 <em>5/7 L</em>를 들이가 <em>2/7 L</em>인 컵에 옮겨 담습니다. 막대의 칸을 끌어다 컵에 담아 보세요.',
+  task:'급식실 매실차 <em>5/7 L</em>를 들이가 <em>2/7 L</em>인 컵에 옮겨 담습니다. 막대의 칸을 끌어다 컵에 담아 보세요.',
   build:function(ctx){
-    const sc=h('div','scene'); sc.append(H('<h4>식수 '+F(5,7,null,'sm')+' L 를 '+F(2,7,null,'sm')+' L 컵에 담기</h4>'));
-    const b=bar(7,{fill:5,top:'<span>식수 '+F(5,7,null,'sm')+' L</span><span class="note">한 칸 = '+F(1,7,null,'sm')+' L</span>'});
+    const sc=h('div','scene'); sc.append(H('<h4>매실차 '+F(5,7,null,'sm')+' L 를 '+F(2,7,null,'sm')+' L 컵에 담기</h4>'));
+    const b=bar(7,{fill:5,top:'<span>매실차 '+F(5,7,null,'sm')+' L</span><span class="note">한 칸 = '+F(1,7,null,'sm')+' L</span>'});
     sc.append(b);
     const info=H('<div class="row center" style="margin-top:16px"><span class="tag t">옮긴 칸 <b class="mv">0</b>/5</span></div>');
     sc.append(info);
@@ -1115,7 +1115,7 @@ LESSONS.push({
  {label:'눈금이 안 맞아요',
   task:'<em>4/7 자</em>를 끌어다 3/4 막대 위에 올려 재어 보세요. 몇 개인지 정확히 셀 수 있을까요?',
   build:function(ctx){
-    const sc=h('div','scene'); sc.append(H('<h4>어제 주운 쓰레기 '+F(3,4,null,'sm')+' kg 은 오늘 '+F(4,7,null,'sm')+' kg 의 몇 배?</h4>'));
+    const sc=h('div','scene'); sc.append(H('<h4>어제 모은 페트병 '+F(3,4,null,'sm')+' kg 은 오늘 '+F(4,7,null,'sm')+' kg 의 몇 배?</h4>'));
     const bA=bar(4,{fill:3,top:'<span>어제 '+F(3,4,null,'sm')+' kg</span><span class="note">1을 4등분</span>'});
     bA.bar.style.position='relative';
     const bB=bar(7,{fill:4,slim:true,cls:'fa',top:'<span>오늘 '+F(4,7,null,'sm')+' kg</span><span class="note">1을 7등분</span>'});
@@ -1241,9 +1241,9 @@ LESSONS.push({
  steps:[
  /* ── STEP 1 ─────────────────────────────────────────── */
  {label:'1시간 채우기',
-  task:'아라온호가 <em>2/3시간</em>에 <em>6 km</em>를 갔습니다. ①「반으로 나누기」 카드를 색칠된 구간에 놓고, ② 만들어진 「3 km」 카드를 빈 구간에 놓아 1시간을 채우세요.',
+  task:'자전거가 <em>2/3시간</em>에 <em>6 km</em>를 갔습니다. ①「반으로 나누기」 카드를 색칠된 구간에 놓고, ② 만들어진 「3 km」 카드를 빈 구간에 놓아 1시간을 채우세요.',
   build:function(ctx){
-    const sc=h('div','scene'); sc.append(H('<h4>아라온호 · 1시간 동안 몇 km?</h4>'));
+    const sc=h('div','scene'); sc.append(H('<h4>자전거 · 1시간 동안 몇 km?</h4>'));
     const b=bar(3,{top:'<span>2/3시간에 6 km</span><span class="note">한 칸 = '+F(1,3,null,'sm')+'시간</span>',
       scale:function(i){return ['0 ~ 1/3','1/3 ~ 2/3','2/3 ~ 1'][i];}});
     b.setFill(2,'fa');
@@ -1420,10 +1420,10 @@ LESSONS.push({
  expr:eq(F(4,5),DIV,F(2,3),EQ,F(4,5),MUL,F(3,2)),
  steps:[
  /* ── STEP 1 ─────────────────────────────────────────── */
- {label:'수조 가득 채우기',
-  task:'바닷물 <em>4/5 L</em>를 넣으니 수조의 <em>2/3</em>가 찼습니다. ①「반으로 나누기」를 물에 놓고, ② 만들어진 칸을 빈 층에 놓아 수조를 가득 채우세요.',
+ {label:'어항 가득 채우기',
+  task:'물 <em>4/5 L</em>를 넣으니 어항의 <em>2/3</em>가 찼습니다. ①「반으로 나누기」를 물에 놓고, ② 만들어진 칸을 빈 층에 놓아 어항을 가득 채우세요.',
   build:function(ctx){
-    const sc=h('div','scene'); sc.append(H('<h4>수조를 가득 채우는 바닷물의 양</h4>'));
+    const sc=h('div','scene'); sc.append(H('<h4>어항을 가득 채우는 물의 양</h4>'));
     const row=h('div','row center'); row.style.alignItems='flex-end';
     const tank=h('div');
     tank.style.cssText='width:230px;height:280px;border:3px solid var(--line-strong);border-radius:0 0 16px 16px;display:flex;flex-direction:column-reverse;overflow:hidden;background:var(--surface)';
@@ -1436,7 +1436,7 @@ LESSONS.push({
     rows[0].style.background='var(--teal-soft)'; rows[1].style.background='var(--teal-soft)';
     const lbl=h('div','col');
     lbl.append(H('<div class="tag t" style="font-size:1rem;padding:10px 14px">지금 들어 있는 물 '+F(4,5,null,'sm')+' L</div>'));
-    lbl.append(H('<div class="tag a" style="font-size:1rem;padding:10px 14px">수조의 '+F(2,3,null,'sm')+' 만큼</div>'));
+    lbl.append(H('<div class="tag a" style="font-size:1rem;padding:10px 14px">어항의 '+F(2,3,null,'sm')+' 만큼</div>'));
     lbl.append(H('<div class="note">가득 채우면 <b class="fullv">?</b> L</div>'));
     row.append(tank,lbl); sc.append(row);
     sc.append(H('<div class="note" style="margin-top:22px">카드</div>'));
@@ -1551,7 +1551,7 @@ LESSONS.push({
              2:{'6':'먼저 곱한 결과를 쓰세요. 4×3 = 12'},
              4:{'12':'12/10을 2로 약분하면 6/5입니다.'}},
       tip:'4/5 × 3/2 = 12/10 = 6/5 = 1과 1/5',
-      okMsg:'1단계에서 수조로 구한 '+F(1,5,1,'sm')+' L 와 같은 답이에요.',
+      okMsg:'1단계에서 어항으로 구한 '+F(1,5,1,'sm')+' L 와 같은 답이에요.',
       onSolved:function(){ctx.done();}});
     const row=h('div','row'); row.append(chk); p.append(row);
     ctx.panel.append(p);
@@ -1567,11 +1567,11 @@ LESSONS.push({
       ' — 나눗셈을 곱셈으로 바꾸고, <b>나누는 분수</b>의 분자와 분모를 바꿉니다.</p></div>'));
     ctx.board.append(ctx.mcq({q:'다음 중 <b>옳게</b> 계산한 사람은 누구인가요?',
       options:[
-        {label:'민하 — '+F(2,3,null,'sm')+' ÷ '+F(4,7,null,'sm')+' = '+F(3,2,null,'sm')+' × '+F(7,4,null,'sm'),
+        {label:'가온 — '+F(2,3,null,'sm')+' ÷ '+F(4,7,null,'sm')+' = '+F(3,2,null,'sm')+' × '+F(7,4,null,'sm'),
          feedback:'앞의 분수 2/3까지 뒤집었어요. 앞의 분수는 그대로 둡니다.'},
-        {label:'규민 — '+F(9,10,null,'sm')+' ÷ '+F(3,7,null,'sm')+' = '+F(9,10,null,'sm')+' × '+F(7,3,null,'sm'),
+        {label:'나래 — '+F(9,10,null,'sm')+' ÷ '+F(3,7,null,'sm')+' = '+F(9,10,null,'sm')+' × '+F(7,3,null,'sm'),
          correct:true,feedback:'맞았어요. 나누는 분수만 뒤집었습니다. 답은 '+F(21,10,null,'sm')+' 입니다.'},
-        {label:'소민 — '+F(2,3,null,'sm')+' ÷ '+F(4,7,null,'sm')+' = '+F(2,3,null,'sm')+' × '+F(4,7,null,'sm'),
+        {label:'다온 — '+F(2,3,null,'sm')+' ÷ '+F(4,7,null,'sm')+' = '+F(2,3,null,'sm')+' × '+F(4,7,null,'sm'),
          feedback:'÷를 ×로 바꾸기만 하고 뒤집지 않았어요. 뒤집기가 빠졌습니다.'}
       ],onSolved:function(){okM=true;tryDone();}}));
     ctx.panel.append(drill([
@@ -1598,9 +1598,9 @@ LESSONS.push({
  steps:[
  /* ── STEP 1 ─────────────────────────────────────────── */
  {label:'가분수로 바꾸기',
-  task:'운석 <em>4와 1/2 g</em>입니다. 온전한 원판 4개를 <em>클릭해서 반으로</em> 잘라, 모두 같은 크기의 조각으로 만드세요.',
+  task:'미술 시간에 쓸 찰흙 <em>4와 1/2 덩이</em>입니다. 온전한 덩이 4개를 <em>클릭해서 반으로</em> 잘라, 모두 같은 크기의 조각으로 만드세요.',
   build:function(ctx){
-    const sc=h('div','scene'); sc.append(H('<h4>운석 '+F(1,2,4,'sm')+' g 을 같은 조각으로</h4>'));
+    const sc=h('div','scene'); sc.append(H('<h4>찰흙 '+F(1,2,4,'sm')+' 덩이를 같은 조각으로</h4>'));
     const dr=h('div','discs'); const ds=[];
     for(let i=0;i<4;i++){const d=disc(2);dr.append(d);ds.push(d);}
     const hd=disc(2,{done:true,half:true,cut:true}); dr.append(hd);
@@ -1665,31 +1665,31 @@ LESSONS.push({
   }},
  /* ── STEP 3 ─────────────────────────────────────────── */
  {label:'접시로 확인',
-  task:'「3/4 g 담기」 카드를 접시로 끌어다 놓아, 운석 4와 1/2 g으로 접시 몇 개를 채울 수 있는지 확인하세요.',
+  task:'「3/4 덩이 담기」 카드를 모둠 그릇으로 끌어다 놓아, 찰흙 4와 1/2 덩이로 몇 모둠에 나누어 줄 수 있는지 확인하세요.',
   build:function(ctx){
-    const sc=h('div','scene'); sc.append(H('<h4>페트리 접시에 '+F(3,4,null,'sm')+' g 씩 담기</h4>'));
-    const b=bar(18,{fill:18,top:'<span>운석 '+F(1,2,4,'sm')+' g = '+F(18,4,null,'sm')+' g</span><span class="note">한 칸 = '+F(1,4,null,'sm')+' g</span>'});
+    const sc=h('div','scene'); sc.append(H('<h4>모둠 그릇에 '+F(3,4,null,'sm')+' 덩이씩 담기</h4>'));
+    const b=bar(18,{fill:18,top:'<span>찰흙 '+F(1,2,4,'sm')+' 덩이 = '+F(18,4,null,'sm')+' 덩이</span><span class="note">한 칸 = '+F(1,4,null,'sm')+' 덩이</span>'});
     sc.append(b);
-    const info=H('<div class="row center" style="margin-top:16px"><span class="tag t">남은 칸 <b class="rest">18</b></span><span class="tag a">채운 접시 <b class="d">0</b>개</span></div>');
+    const info=H('<div class="row center" style="margin-top:16px"><span class="tag t">남은 칸 <b class="rest">18</b></span><span class="tag a">나누어 준 모둠 <b class="d">0</b>모둠</span></div>');
     sc.append(info);
-    sc.append(H('<div class="note" style="margin-top:18px">접시 — 하나에 '+F(3,4,null,'sm')+' g (칸 3개)</div>'));
+    sc.append(H('<div class="note" style="margin-top:18px">모둠 그릇 — 하나에 '+F(3,4,null,'sm')+' 덩이 (칸 3개)</div>'));
     const vs=h('div','vessels'); const ds=[];
     for(let i=0;i<7;i++){const v=vessel(3,(i+1));vs.append(v);ds.push(v);}
     sc.append(vs);
     sc.append(H('<div class="note" style="margin-top:22px">카드</div>'));
-    const cr=h('div','row'); const tok=h('div','token a',F(3,4,null,'sm')+' g<br>담기'); cr.append(tok); sc.append(cr);
+    const cr=h('div','row'); const tok=h('div','token a',F(3,4,null,'sm')+' 덩이<br>담기'); cr.append(tok); sc.append(cr);
     ctx.board.append(sc);
 
     let rest=18, filled=0;
     source(tok,'p');
     ds.forEach(function(v){
       zone(v,{accept:function(){return v.n===0;},drop:function(){
-        if(rest<3){ctx.say('no','남은 운석이 '+rest+'칸뿐이라 '+F(3,4,null,'sm')+' g 을 더 담을 수 없어요. 접시는 <b>6개</b>까지입니다.');return;}
+        if(rest<3){ctx.say('no','남은 찰흙이 '+rest+'칸뿐이라 '+F(3,4,null,'sm')+' 덩이를 더 담을 수 없어요. 모둠은 <b>6모둠</b>까지입니다.');return;}
         rest-=3; filled++; v.set(3);
         b.setFill(rest,'f');
         $('.rest',info).textContent=rest; $('.d',info).textContent=filled;
         if(rest===0){
-          ctx.say('ok','접시 <b>6개</b>를 정확히 채웠어요. '+F(1,2,4,'sm')+' ÷ '+F(3,4,null,'sm')+' = <b>6</b> 입니다.');
+          ctx.say('ok','<b>6모둠</b>에 정확히 나누어 주었어요. '+F(1,2,4,'sm')+' ÷ '+F(3,4,null,'sm')+' = <b>6</b> 입니다.');
           p.hidden=false;
         }
       }});
@@ -1719,8 +1719,8 @@ LESSONS.push({
        answers:{0:'9',1:'21',2:'4'},tip:'9/4 × 7/3 = 63/12 = 21/4'},
       {html:eq(F(1,3,2),DIV,F(3,5,1),EQ,F('_0',3),DIV,F('_1',5),EQ,F('_2','_3')),
        answers:{0:'7',1:'8',2:'35',3:'24'},tip:'7/3 × 5/8 = 35/24'},
-      {html:'<div class="note">쌀 '+F(1,2,10,'sm')+' kg 을 한 통에 '+F(3,4,1,'sm')+' kg 씩 담아 기부합니다. 필요한 통은 몇 통인가요?</div>'+
-            eq(F(1,2,10),DIV,F(3,4,1),EQ,F('_0',2),DIV,F('_1',4),EQ,N('_2'))+'<div class="note">답 '+BL(3)+' 통</div>',
+      {html:'<div class="note">텃밭에서 캔 감자 '+F(1,2,10,'sm')+' kg 을 한 상자에 '+F(3,4,1,'sm')+' kg 씩 담습니다. 필요한 상자는 몇 상자인가요?</div>'+
+            eq(F(1,2,10),DIV,F(3,4,1),EQ,F('_0',2),DIV,F('_1',4),EQ,N('_2'))+'<div class="note">답 '+BL(3)+' 상자</div>',
        answers:{0:'21',1:'7',2:'6',3:'6'},tip:'21/2 × 4/7 = 84/14 = 6'}
     ],ctx,'가분수로 바꾼 뒤 통분 또는 곱셈으로 계산하세요.'));
   }}
