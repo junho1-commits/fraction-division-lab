@@ -1,7 +1,7 @@
 /* 분수의 나눗셈 실험실 — 오프라인 지원 서비스 워커
    교실 와이파이가 끊겨도 한 번 열어 본 기기에서는 앱이 계속 동작한다. */
 
-const CACHE = 'fdlab-v1';
+const CACHE = 'fdlab-v2';
 const SHELL = [
   './',
   './index.html',
