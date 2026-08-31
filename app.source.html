@@ -422,12 +422,17 @@ function progressFileName(){
 }
 function exportProgress(){
   const done=Object.keys(PROG).reduce(function(a,k){return a+PROG[k].filter(Boolean).length;},0);
-  const blob=new Blob([JSON.stringify({app:'fdlab',v:1,saved:new Date().toISOString(),prog:PROG},null,1)],
-    {type:'application/json'});
-  const url=URL.createObjectURL(blob), a=document.createElement('a');
-  a.href=url; a.download=progressFileName(); document.body.append(a); a.click(); a.remove();
-  setTimeout(function(){URL.revokeObjectURL(url);},2000);
-  toast('진행 기록 파일을 내려받았어요. (해결한 단계 '+done+'개)');
+  try{
+    const blob=new Blob([JSON.stringify({app:'fdlab',v:1,saved:new Date().toISOString(),prog:PROG},null,1)],
+      {type:'application/json'});
+    const url=URL.createObjectURL(blob), a=document.createElement('a');
+    a.href=url; a.download=progressFileName(); document.body.append(a); a.click(); a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},2000);
+    toast('진행 기록 파일을 내려받았어요. (해결한 단계 '+done+'개)');
+  }catch(e){
+    /* 내려받기까지 막힌 환경 — 창을 닫지 않는 것이 유일한 방법이므로 그렇게 안내한다 */
+    toast('이 환경에서는 파일을 내려받을 수 없어요. 수업이 끝날 때까지 <b>창을 닫지 말고</b> 그대로 두세요.',true);
+  }
 }
 function importProgress(file){
   const r=new FileReader();
