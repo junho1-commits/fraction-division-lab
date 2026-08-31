@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<meta name="robots" content="noindex,nofollow,noarchive">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="초등학교 6학년 2학기 수학 1단원 분수의 나눗셈을 조작 활동으로 익히는 학습 앱. 여섯 차시를 구체물·그림·식·연습 네 단계로 공부합니다.">
-<meta name="theme-color" content="#EDF3F6" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0A1820" media="(prefers-color-scheme: dark)">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="분수 나눗셈">
-<meta name="mobile-web-app-capable" content="yes">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icons/icon-192.png" sizes="192x192" type="image/png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png">
 <title>분수의 나눗셈 실험실</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -380,15 +365,13 @@ label.iconbtn{display:inline-block;cursor:pointer}
 .seg.t{background:var(--teal)} .seg.a{background:var(--accent)}
 .seg.ghost{background:none;border:2.5px dashed var(--line-strong);color:var(--ink-3)}
 </style>
-</head>
-<body>
+
 <div id="app">
   <header class="topbar"><div class="wrap">
     <div class="brand"><span class="dot"></span><span>분수의 나눗셈 실험실</span><small>6-2 · 1단원</small></div>
     <div class="spacer"></div>
     <button class="iconbtn" id="btn-save" hidden>진행 저장</button>
     <label class="iconbtn" id="btn-load" hidden>진행 불러오기<input type="file" accept=".json,application/json" hidden></label>
-    <button class="iconbtn" id="btn-install" hidden>앱 설치</button>
     <button class="iconbtn" id="btn-home">차시 목록</button>
     <button class="iconbtn" id="btn-reset">기록 지우기</button>
   </div></header>
@@ -1740,27 +1723,3 @@ LESSONS.push({
 
 renderHome();
 </script>
-<script>
-/* ── 웹 앱 기능: 설치 버튼 + 오프라인 지원 ─────────────── */
-(function(){
-  var pending=null, btn=document.getElementById('btn-install');
-  window.addEventListener('beforeinstallprompt',function(e){
-    e.preventDefault(); pending=e; btn.hidden=false;
-  });
-  btn.addEventListener('click',function(){
-    if(!pending)return;
-    pending.prompt();
-    pending.userChoice.then(function(){pending=null;btn.hidden=true;});
-  });
-  window.addEventListener('appinstalled',function(){btn.hidden=true;});
-
-  var ok = location.protocol==='https:' || location.hostname==='localhost' || location.hostname==='127.0.0.1';
-  if('serviceWorker' in navigator && ok){
-    window.addEventListener('load',function(){
-      navigator.serviceWorker.register('sw.js').catch(function(){});
-    });
-  }
-})();
-</script>
-</body>
-</html>
